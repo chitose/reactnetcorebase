@@ -46,5 +46,8 @@
     "react-tap-event-plugin": "^1.0.0",
     "validator": "^5.5.0",
     "whatwg-fetch": "^1.0.0"
+  },
+  "scripts": {
+    "build-vendor": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress"
   }
 }

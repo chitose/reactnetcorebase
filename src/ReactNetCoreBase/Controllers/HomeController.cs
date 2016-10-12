@@ -23,13 +23,13 @@ namespace ReactNetCoreBase.Controllers
     [AddHeader("X-XSS-Protection", "1; mode=block")]
     public IActionResult Index()
     {
-      UserResponse profile = null;
+      LoginResponse profile = null;
       if (User.Identity.IsAuthenticated)
       {
         var user = db.Users.Find(User.GetId());
         if (user != null)
         {
-          profile = new UserResponse {
+          profile = new LoginResponse {
             Rights = User.Claims.Select(c => (Right)int.Parse(c.Value)),
             CsrfToken = User.FindFirst(Claims.SecurityToken).Value,
             UserName = user.UserName,
@@ -52,7 +52,7 @@ namespace ReactNetCoreBase.Controllers
     public class Model
     {
       public string CacheDate { get; set; }
-      public UserResponse Profile { get; set; }
+      public LoginResponse Profile { get; set; }
     }
   }
 }

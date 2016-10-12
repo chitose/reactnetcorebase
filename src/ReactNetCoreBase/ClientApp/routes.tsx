@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { Router, Route, HistoryBase, RouterState, RedirectFunction, IndexRoute } from 'react-router';
-import { Layout } from './pages/layout';
-import { HomePage } from './pages/home';
+import { Layout } from './page/layout';
+import { HomePage } from './page/home';
 
 export interface RouteConfig {
     path: string;

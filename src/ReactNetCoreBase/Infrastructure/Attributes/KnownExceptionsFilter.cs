@@ -29,7 +29,7 @@ namespace ReactNetCoreBase.Infrastructure.Attributes
             {
                 context.Result = new StatusCodeResult(StatusCodes.Status412PreconditionFailed);
                 return true;
-            }            
+            }
 
             if (ex is SecurityException)
             {

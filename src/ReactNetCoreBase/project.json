@@ -65,12 +65,15 @@
         ]
     },
 
-    "scripts": {
-        "prepublish": [
-            "npm install",
-            "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress",
-            "node node_modules/webpack/bin/webpack.js -d --color --inline --progress"
-        ],
-        "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-    }
+  "scripts": {
+    "postrestore": [
+      "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress"
+    ],
+    "prepublish": [
+      "npm install",
+      "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress",
+      "node node_modules/webpack/bin/webpack.js -d --color --inline --progress"
+    ],
+    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+  }
 }

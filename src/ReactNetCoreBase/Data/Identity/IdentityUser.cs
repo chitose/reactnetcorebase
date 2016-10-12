@@ -1,15 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using ReactNetCoreBase.Models.Db;
 
-namespace ReactNetCoreBase.Data.Identity {
+namespace ReactNetCoreBase.Data.Identity
+{
     public class IdentityUser<TRole> : Base
     {
-        public IdentityUser() {
+        public IdentityUser()
+        {
 
         }
 
-        public IdentityUser(string userName) : this() {
+        public IdentityUser(string userName) : this()
+        {
 
         }
 
@@ -25,15 +29,16 @@ namespace ReactNetCoreBase.Data.Identity {
         [Required]
         public int RoleId { get; set; }
 
-        public TRole Role { get; set; }        
+        public TRole Role { get; set; }
 
+        [JsonIgnore]
         public virtual string PasswordHash { get; set; }
 
         /// <summary>
         /// A random value that must change whenever a user credentials change
         /// </summary>
         public virtual string SecurityStamp { get; set; }
-        
+
 
         /// <summary>
         /// Gets or sets the date and time, in UTC, when any user lockout ends.
@@ -52,6 +57,7 @@ namespace ReactNetCoreBase.Data.Identity {
         /// <summary>
         /// Gets or sets the number of failed login attempts for the current user.
         /// </summary>
+        [JsonIgnore]
         public virtual int AccessFailedCount { get; set; }
     }
 }

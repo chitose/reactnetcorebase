@@ -11,7 +11,7 @@ namespace ReactNetCoreBase.Data
         public static string ConnectionString;
 
         public AppDbConfig() {
-            SetDatabaseInitializer<>
+            //SetDatabaseInitializer<>
         }
     }
 }

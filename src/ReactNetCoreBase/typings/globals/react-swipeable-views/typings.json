@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/65ede6d2f3f95b2cff04caa2cefd951ca9ce0521/react-swipeable-views/react-swipeable-views.d.ts",
+    "raw": "registry:dt/react-swipeable-views#0.0.0+20160314195531",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/65ede6d2f3f95b2cff04caa2cefd951ca9ce0521/react-swipeable-views/react-swipeable-views.d.ts"
+  }
+}

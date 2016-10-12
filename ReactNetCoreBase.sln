@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2AD603E9-3873-4CF1-AEC6-C78785516C63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2B4E12C-8A76-49B8-953B-284917BACE99}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ReactNetCoreBase", "src\ReactNetCoreBase\ReactNetCoreBase.xproj", "{D610D404-4FB0-460F-902B-4E5E56BE073D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D610D404-4FB0-460F-902B-4E5E56BE073D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D610D404-4FB0-460F-902B-4E5E56BE073D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D610D404-4FB0-460F-902B-4E5E56BE073D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D610D404-4FB0-460F-902B-4E5E56BE073D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D610D404-4FB0-460F-902B-4E5E56BE073D} = {2AD603E9-3873-4CF1-AEC6-C78785516C63}
+	EndGlobalSection
+EndGlobal

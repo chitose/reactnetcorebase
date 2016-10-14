@@ -11,7 +11,7 @@ interface SystemProviderState {
   confirmData: ConfirmInfo[];
   alertData: AlertInfo[];
   dialogData: DialogInfo<any>[];
-  snackData: SnackInfo;
+  snackData: SnackInfo;  
 }
 
 interface SnackInfo {
@@ -201,7 +201,7 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
         </Dialog>;
       })}
       {this.state.alertData.map(ai => {
-        return <Dialog key={`alert-${ai.id}`} title={ai.title} modal={false} open={ai.open} onRequestClose={() => this.closeAlert(ai)} actions={this.renderAlertActions(ai)}>
+        return <Dialog key={`alert-${ai.id}`} title={ai.title} modal={true} open={ai.open} onRequestClose={() => this.closeAlert(ai)} actions={this.renderAlertActions(ai)}>
           {Array.isArray(ai.message) ? (ai.message as string[]).map((m, i) => { return <p key={i}>{m}</p> }) : ai.message}
         </Dialog>
       })}

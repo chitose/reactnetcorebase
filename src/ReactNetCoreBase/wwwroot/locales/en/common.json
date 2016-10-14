@@ -2,7 +2,8 @@
     "appTitle": "React-Netcore Base",
     "dialog": {
         "title": {
-            "request_failure": "Request error"
+            "request_failure": "Request error",
+            "long_wait": "Working..."
         },
         "label": {
             "exception_details": "Exception details"
@@ -13,11 +14,13 @@
         "save_change_confirm": "You have un-saved data. Do you really want to continue?",
         "security_exception": "Security violation.",
         "concurrency_exception": "Concurrency violation.",
-        "runtime_exception": "Runtime exception occured."
+        "runtime_exception": "Runtime exception occured.",
+        "long_waiting": "Please wait while we are working on it..."
     },
     "button": {
         "no": "No",
         "yes": "Yes",
-        "OK": "OK"
+        "OK": "OK",
+        "cancel": "Cancel"
     }
 }

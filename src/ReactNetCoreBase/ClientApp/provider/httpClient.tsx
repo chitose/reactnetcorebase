@@ -1,6 +1,8 @@
 ﻿import * as React from 'react';
 import { SystemAPI, SystemProviderConsumerComponent } from './system';
 import { ApiResponse } from '../model/view/apiResponse';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+
 
 export interface HttpClientAPI {
   http: { <T>(url: string, req?: any): Promise<T> };
@@ -13,6 +15,8 @@ interface HttpClientProviderState {
 }
 
 export class HttpClientProvider extends SystemProviderConsumerComponent<any, HttpClientProviderState> implements HttpClientAPI {
+  private requestRejectedDic: { [key: number]: boolean } = {};
+  private requestCounter = 1;
   constructor(props, ctx) {
     super(props, ctx);
     this.state = {
@@ -60,12 +64,28 @@ export class HttpClientProvider extends SystemProviderConsumerComponent<any, Htt
     return this.fetchData<T>(url, req);
   }
 
+  async showLongInfoRequest() {
+    return await this.system.alert(this.i18n.t("common:dialog.title.long_wait"),
+      <div style={{ position: 'relative' }}>
+        <RefreshIndicator status="loading" top={10} left={0}
+          style={{ position: 'relative', display: 'inline-block', marginRight: 10 }}/>
+        {this.i18n.t("common:message.long_waiting")}</div>,
+      this.i18n.t("common:button.cancel"));
+  }
+
   async fetchData<T>(url: string, req?: any): Promise<ApiResponse<T>> {
     req = Object.assign({}, req, {
       credentials: 'same-origin'
     });
 
     let response: Response;
+    let reqId = this.requestCounter++;
+    let timerId = setTimeout(() => {
+      this.showLongInfoRequest().then((r) => {
+        this.requestRejectedDic[reqId] = true;
+        throw 'request canceled';
+      });
+    }, 500);
     try {
       response = await fetch(url, req);
     }
@@ -73,7 +93,10 @@ export class HttpClientProvider extends SystemProviderConsumerComponent<any, Htt
       this.system.alert(this.i18n.t("common:dialog.title.request_failure"), this.i18n.t("common:message.network_error"));
       throw ex;
     }
-
+    clearTimeout(timerId);
+    if (this.requestRejectedDic[reqId]) {
+      throw 'request canceled';
+    }
     const raw = await response.text();
     var resp = JSON.parse(raw, this.convertDateString) as ApiResponse<T>;
     if (!resp.isBusinessError && resp.errorMessage) {

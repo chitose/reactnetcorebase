@@ -1,6 +1,7 @@
-﻿import * as React from 'react';
+﻿import './content/main.less';
+
+import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { browserHistory, Router } from 'react-router';
 import { ServerInfoProvider, SystemProvider } from './provider';
 
 import { I18nextProvider } from 'react-i18next';
@@ -11,7 +12,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import { routes } from './routes';
+import { RouteProvider } from './routes';
 
 injectTapEventPlugin();
 
@@ -38,8 +39,8 @@ ReactDOM.render(
     <I18nextProvider i18n={i18n}>
         <MuiThemeProvider muiTheme={theme}>
             <ServerInfoProvider serverInfo={serverInfo}>
-                <SystemProvider>
-                    <Router history={browserHistory} children={routes} />
+        <SystemProvider>
+          <RouteProvider/>
                 </SystemProvider>
             </ServerInfoProvider>
         </MuiThemeProvider>

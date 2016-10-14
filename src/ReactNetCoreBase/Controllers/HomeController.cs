@@ -1,7 +1,12 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using ReactNetCoreBase.Configuration;
 using ReactNetCoreBase.Data;
 using ReactNetCoreBase.Infrastructure.Attributes;
 using ReactNetCoreBase.Infrastructure.Security;
@@ -14,9 +19,13 @@ namespace ReactNetCoreBase.Controllers
   {
     private static readonly string cacheDate = GetCacheDate();
     private readonly ApplicationDbContext db;
-    public HomeController(ApplicationDbContext db)
+    private readonly IHostingEnvironment env;
+    private readonly Settings settings;
+    public HomeController(ApplicationDbContext db, IOptions<Settings> settings, IHostingEnvironment env)
     {
       this.db = db;
+      this.settings = settings.Value;
+      this.env = env;
     }
 
     [AddHeader("X-Frame-Options", "deny")]
@@ -37,9 +46,19 @@ namespace ReactNetCoreBase.Controllers
           };
         }
       }
+
+      var languages = Request.Headers["Accept-Language"].FirstOrDefault();
+      if (!string.IsNullOrEmpty(languages))
+      {
+        languages = languages.Split(',').First();
+      }
+
       return View(new Model {
         CacheDate = cacheDate,
-        Profile = profile
+        Profile = profile,
+        Language = languages,
+        Settings = settings,
+        Resources = GetJsonResource()
       });
     }
 
@@ -49,10 +68,37 @@ namespace ReactNetCoreBase.Controllers
       return new FileInfo(assemblyFile).LastWriteTime.ToString("yyyy-MM-dd@HH:mm:ss", CultureInfo.InvariantCulture);
     }
 
+    private object GetJsonResource()
+    {
+      DirectoryInfo dir = new DirectoryInfo(Path.Combine(env.WebRootPath, "locales"));
+      var res = new Dictionary<string, Dictionary<string, object>>();
+      if (dir.Exists)
+      {
+        foreach (var s in dir.GetDirectories())
+        {
+          var lang = new Dictionary<string, object>();
+          res.Add(s.Name, lang);
+          var jsonFiles = s.GetFiles("*.json");
+          foreach (var json in jsonFiles)
+          {
+            using (var st = new StreamReader(json.FullName))
+            {
+              var jsonData = JsonConvert.DeserializeObject<object>(st.ReadToEnd());
+              lang.Add(Path.GetFileNameWithoutExtension(json.Name), jsonData);
+            }
+          }
+        }
+      }
+      return res;
+    }
+
     public class Model
     {
       public string CacheDate { get; set; }
       public LoginResponse Profile { get; set; }
+      public Settings Settings { get; set; }
+      public string Language { get; set; }
+      public object Resources { get; set; }
     }
   }
 }

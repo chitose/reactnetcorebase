@@ -1,31 +1,48 @@
 ﻿import * as React from 'react';
-import { Router, Route, HistoryBase, RouterState, RedirectFunction, IndexRoute } from 'react-router';
+import { browserHistory, Router, Route, HistoryBase, RouterState, RedirectFunction, IndexRoute } from 'react-router';
+import { ServerInfo } from './common';
+import { ServerInfoConsumerComponent } from './provider/server';
+
+
 import { Layout } from './page/layout';
 import { HomePage } from './page/home';
+import { LoginPage } from './page/security/login';
 
 export interface RouteConfig {
-    path: string;
-    component: any
+  path: string;
+  component: any
 }
 
 export const RoutePaths = {
-    root: "/",
-    login: "/login",
-    forbidden: "/forbidden"
+  root: "/",
+  login: "/login",
+  forbidden: "/forbidden"
 }
 
-function privateGroupGuard(nextState: RouterState, replace: RedirectFunction) {
+export class RouteProvider extends ServerInfoConsumerComponent<any, void> {
+  privateGroupGuard = (nextState: RouterState, replace: RedirectFunction) => {
     if (nextState.location.pathname !== RoutePaths.forbidden) {
+
     }
 
-    if (nextState.location.pathname !== RoutePaths.login) {
+    if (nextState.location.pathname !== RoutePaths.login && nextState.location.pathname !== RoutePaths.forbidden
+      && !this.serverInfo.info.userProfile) {
+      replace({
+        pathname: RoutePaths.login,
+        state: { nextPathname: nextState.location.pathname }
+      });
     }
-}
+  }
 
-function routeChange(prevState: RouterState, nextState: RouterState, replace: RedirectFunction) {
-    privateGroupGuard(nextState, replace);
-}
+  routeChange = (prevState: RouterState, nextState: RouterState, replace: RedirectFunction) => {
+    this.privateGroupGuard(nextState, replace);
+  }
 
-export const routes = <Route path={RoutePaths.root} component={Layout} onEnter={privateGroupGuard} onChange={routeChange}>
-    <IndexRoute components={{ body: HomePage as any }} />
-</Route>;
+  render() {
+    const routes = <Route path={RoutePaths.root} component={Layout} onEnter={this.privateGroupGuard} onChange={this.routeChange}>
+      <IndexRoute components={{ body: HomePage as any }} />
+      <Route path={RoutePaths.login} components={{ body: LoginPage }}/>
+    </Route>;
+    return <Router history={browserHistory} children={routes} />
+  }
+}

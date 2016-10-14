@@ -95,12 +95,11 @@
 
     bool HasEnumDependencies(File file) => Dependencies(file).Any(x => x.IsEnum);
     IEnumerable < Type > EnumDependencies(File file) => Dependencies(file).Where(t => t.IsEnum);
-    IEnumerable < Type > ClassDependencies(File file) => Dependencies(file).Where(t => !t.IsEnum);
+    IEnumerable < Type > ClassDependencies(File file) => Dependencies(file).Where(t => !t.IsEnum && t.name!="t");
 }// Auto-generated using typewriter -> from model.tst
-
 $HasEnumDependencies[import { $EnumDependencies[$Name][, ] } from '../enums';]
 $ClassDependencies[import { $Name } from './$name';]
-$Classes(ReactNetCoreBase.Models.View.*)[export interface $Name {
+$Classes(ReactNetCoreBase.Models.View.*)[export interface $Name$IsGeneric[<T>] {
 $InheritedRequiredProperties[  $name: $Type;
 ]$InheritedOptionalProperties[  $name?: $Type;
 ]}]

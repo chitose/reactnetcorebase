@@ -1,5 +1,4 @@
 // Auto-generated using typewriter -> from model.tst
-
 import { Right } from '../enums';
 
 export interface LoginResponse {

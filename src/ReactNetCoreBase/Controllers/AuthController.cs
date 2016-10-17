@@ -20,7 +20,7 @@ namespace ReactNetCoreBase.Controllers
     }
 
     public async Task<LoginResponse> Login([FromBody]LoginRequest request, [FromServices]SignInManager<User> signInManager)
-    {      
+    {
       var user = db.Users.AsNoTracking()
           .Include(x => x.Role.Rights)
           .FirstOrDefault(x => x.UserName == request.UserName);
@@ -42,6 +42,13 @@ namespace ReactNetCoreBase.Controllers
         DisplayName = user.DisplayName,
         Rights = user.Role.Rights.Select(p => p.Right)
       };
+    }
+
+    [HttpPost("signout")]
+    public async Task Signout([FromServices]SignInManager<User> signInManager)
+    {
+      Loggers.Authentication.Info($"Signout: User '{User.Identity.Name}' signed out.");
+      await signInManager.SignOutAsync();
     }
   }
 }

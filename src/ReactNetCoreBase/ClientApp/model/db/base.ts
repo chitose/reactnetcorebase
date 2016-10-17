@@ -10,4 +10,5 @@ export interface Base {
   editorId?: number;
   modified?: Date;
   created?: Date;
+  rowVersion?: number[];
 }

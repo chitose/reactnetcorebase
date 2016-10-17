@@ -23,7 +23,7 @@ export const RoutePaths = {
 }
 
 const routesConfig: RouteConfig[] = [
-  { component: HomePage, indexed: true },
+  { component: HomePage, indexed: true, auth: true, path: RoutePaths.root },
   { component: LoginPage, path: RoutePaths.login },
 ];
 

@@ -9,6 +9,6 @@ export interface LoginRequest {
 
 
 export let LoginRequest_Rules = {
-userName: [Constraints.required()],
-password: [[Constraints.required(), Constraints.minLength(8)]]
+userName: Constraints.required(),
+password: Constraints.required()
 };

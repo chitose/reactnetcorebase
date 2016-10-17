@@ -34,6 +34,12 @@ namespace ReactNetCoreBase.Data.Identity
         [JsonIgnore]
         public virtual string PasswordHash { get; set; }
 
+        [MaxLength(30)]
+        public string Phone { get; set; }
+
+        [MaxLength(256)]
+        public string Email { get; set; }
+
         /// <summary>
         /// A random value that must change whenever a user credentials change
         /// </summary>

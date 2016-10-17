@@ -16,5 +16,16 @@
     [EditorId] INT NOT NULL, 
     [Modified] SMALLDATETIME NOT NULL, 
     [Created] SMALLDATETIME NOT NULL, 
+    [Phone] NVARCHAR(30) NULL, 
+    [Email] NVARCHAR(256) NULL, 
+    [RowVersion] TIMESTAMP NOT NULL,
     CONSTRAINT [FK_User_Role] FOREIGN KEY ([RoleId]) REFERENCES [Role]([Id])
 )
+
+GO
+
+CREATE UNIQUE INDEX [IX_User_UserName] ON [dbo].[User] ([UserName])
+
+GO
+
+CREATE UNIQUE INDEX [IX_User_Email] ON [dbo].[User] ([Email])

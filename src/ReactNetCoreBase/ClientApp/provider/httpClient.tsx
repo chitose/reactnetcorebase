@@ -99,19 +99,23 @@ export class HttpClientProvider extends SystemProviderConsumerComponent<any, Htt
 
         if (!this.requestRejectedDic[reqId]) {
           response.text().then((raw) => {
-            var resp = JSON.parse(raw, this.convertDateString) as ApiResponse<T>;
-            if (!resp.isBusinessError && resp.errorMessage) {
-              let errorMsg: JSX.Element[] = [];
-              errorMsg.push(<p className="error-message">{this.i18n.t(resp.errorMessage, resp.errorOptions)}</p>);
-              if (resp.errorDetails) {
-                errorMsg.push(<h2>{this.i18n.t("common:dialog.label.exception_details")}</h2>);
-                errorMsg.push(<p className="error-detail">{resp.errorDetails}</p>);
+            if (!raw || raw === "") {
+              resolve();
+            } else {
+              var resp = JSON.parse(raw, this.convertDateString) as ApiResponse<T>;
+              if (!resp.isBusinessError && resp.errorMessage) {
+                let errorMsg: JSX.Element[] = [];
+                errorMsg.push(<p className="error-message">{this.i18n.t(resp.errorMessage, resp.errorOptions)}</p>);
+                if (resp.errorDetails) {
+                  errorMsg.push(<h2>{this.i18n.t("common:dialog.label.exception_details")}</h2>);
+                  errorMsg.push(<p className="error-detail">{resp.errorDetails}</p>);
+                }
+                this.system.alert(this.i18n.t("common:dialog.title.request_failure"), errorMsg);
+                reject(resp.errorMessage);
               }
-              this.system.alert(this.i18n.t("common:dialog.title.request_failure"), errorMsg);
-              reject(resp.errorMessage);
-            }
 
-            resolve(resp);
+              resolve(resp);
+            }
           });
         }
       })

@@ -141,7 +141,7 @@ $InheritedRequiredProperties[  $name: $Type;
 
 $Classes(ReactNetCoreBase.Models.View.*)[$HasValidatables[
 export let $Name_Rules = {
-$ValidableProperties[$name: [$Validations]][,
+$ValidableProperties[$name: $Validations][,
 ]
 };
 ]]

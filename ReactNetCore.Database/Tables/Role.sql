@@ -8,5 +8,6 @@
     [Editor] NVARCHAR(256) NOT NULL, 
     [EditorId] INT NOT NULL, 
     [Modified] SMALLDATETIME NOT NULL, 
-    [Created] SMALLDATETIME NOT NULL
+    [Created] SMALLDATETIME NOT NULL,
+    [RowVersion] TIMESTAMP NOT NULL
 )

@@ -22,11 +22,7 @@
     "System.Data.Common": "4.1.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.NodeServices": "1.0.0-beta-000014",
-    "Microsoft.AspNetCore.SpaServices": "1.0.0-beta-000014",
-    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
-    "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
-    "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.0.0",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-rc1-final"
+    "Microsoft.AspNetCore.SpaServices": "1.0.0-beta-000014"    
   },
 
   "tools": {

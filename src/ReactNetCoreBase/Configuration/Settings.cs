@@ -10,9 +10,6 @@ namespace ReactNetCoreBase.Configuration {
       PasswordOptions = new PasswordOptions();
     }
 
-    public PasswordOptions PasswordOptions { get; set; }
-
-    public string ClientId { get; set; }
-    public string ClientSecret { get; set; }
+    public PasswordOptions PasswordOptions { get; set; }    
   }
 }

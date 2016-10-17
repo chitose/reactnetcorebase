@@ -16,7 +16,6 @@ using ReactNetCoreBase.Models.View;
 
 namespace ReactNetCoreBase.Controllers
 {
-[Authorize]
   public class HomeController : Controller
   {
     private static readonly string cacheDate = GetCacheDate();
@@ -41,7 +40,7 @@ namespace ReactNetCoreBase.Controllers
         if (user != null)
         {
           profile = new LoginResponse {
-            Rights = User.Claims.Select(c => (Right)int.Parse(c.Value)),
+            Rights = User.Claims.Where(c => c.Type == Claims.Right).Select(c => (Right)int.Parse(c.Value)),
             CsrfToken = User.FindFirst(Claims.SecurityToken).Value,
             UserName = user.UserName,
             DisplayName = user.DisplayName

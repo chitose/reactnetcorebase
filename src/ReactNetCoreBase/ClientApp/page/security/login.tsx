@@ -10,9 +10,18 @@ import { Link } from 'react-router';
 import { RoutePaths } from '../../routes';
 import { PageTitle } from '../component';
 
-export class LoginPage extends BaseComponent<any, void> {
+import { RouteComponentProps, browserHistory } from 'react-router';
+
+export class LoginPage extends BaseComponent<RouteComponentProps<{ rurl: string }, any>, void> {
   async submit(model: LoginRequest) {
-    return await authSvc.login(this.httpClient, model);
+    let resp = await authSvc.login(this.httpClient, model);
+    if (resp.data) {
+      let info = this.serverInfo.info;
+      info.profile = resp.data;
+      this.serverInfo.updateServerInfo(info);
+      browserHistory.push(this.props.params.rurl || RoutePaths.root);
+    }
+    return resp;
   }
 
   render() {
@@ -22,7 +31,7 @@ export class LoginPage extends BaseComponent<any, void> {
           <div className="col-xs-3">
             <Paper zDepth={1} className="paper">
               <Form onSubmit={this.submit.bind(this)} name="login" title="security:login.title" saveLabel="security:button.login"
-                rules = {LoginRequest_Rules}>
+                rules={LoginRequest_Rules}>
                 <FormTextField name="userName" autoFocus={true} label={this.i18n.t("security:login.label.user_name")}/>
                 <FormTextField name="password" label={this.i18n.t("security:login.label.password")} type="password"/>
               </Form>

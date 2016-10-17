@@ -21,7 +21,7 @@ interface FormProps extends React.Props<Form> {
   footerAction?: JSX.Element | JSX.Element[];
   headerContent?: JSX.Element | JSX.Element[];
   className?: string;
-  rules?: Dictionary<Validator[]>;
+  rules?: Dictionary<Validator | Validator[]>;
   showValidationSummary?: boolean;
 }
 
@@ -88,7 +88,8 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
     if (this.props.rules) {
       let fieldValidators = this.props.rules[field.props.name];
       if (fieldValidators) {
-        let fr = fieldValidators.map(v => v.isValid(field)).filter(vr => vr !== null);
+        let fr = (Array.isArray(fieldValidators) ? fieldValidators.map(v => v.isValid(field))
+          : [fieldValidators.isValid(field)]).filter(vr => vr !== null);
         field.updateStatus(fr, onSubmit);
         return fr;
       }

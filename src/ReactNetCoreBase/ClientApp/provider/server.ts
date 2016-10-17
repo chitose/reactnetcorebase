@@ -1,5 +1,6 @@
 ﻿import * as React from 'react';
 import { ServerInfo } from '../common';
+import { Theme } from '../theme/theme';
 interface ServerInfoProviderProps extends React.Props<ServerInfoProvider> {
   serverInfo: ServerInfo
 }
@@ -15,7 +16,8 @@ export interface ServerInfoProviderAPI {
 
 export const ServerInfoContextTypes = {
   serverInfo: React.PropTypes.object,
-  i18n: React.PropTypes.object
+  i18n: React.PropTypes.object,
+  muiTheme: React.PropTypes.object
 };
 
 export class ServerInfoProvider extends React.Component<ServerInfoProviderProps, ServerInfoProviderState> implements ServerInfoProviderAPI {
@@ -56,5 +58,13 @@ export abstract class ServerInfoConsumerComponent<P, S> extends React.Component<
 
   protected get i18n(): I18next.I18n {
     return this.context["i18n"] as I18next.I18n;
+  }
+
+  protected get theme(): Theme {
+    return this.context["muiTheme"] as Theme;
+  }
+
+  protected get logged(): boolean {
+    return Boolean(this.serverInfo.info.profile);
   }
 }

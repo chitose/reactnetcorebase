@@ -1,9 +1,12 @@
 ﻿import * as React from 'react';
-
-export class HomePage extends React.Component<any, void> {
-    render() {
-        return (
-            <div>Home page</div>
-        );
-    }
+import { PageTitle } from './component';
+import { BaseComponent } from '../provider';
+export class HomePage extends BaseComponent<any, void> {
+  render() {
+    return (
+      <PageTitle title={this.i18n.t("common:app_title")}>
+        <div>Home page</div>
+      </PageTitle>
+    );
+  }
 }

@@ -1,5 +1,18 @@
 ﻿{
+  "message": {
+    "invalid": "Wrong username or password."
+  },
+  "login": {
+    "title": "Login",
+    "label": {
+      "user_name": "Username",
+      "password": "Password"
+    },
     "message": {
-        "invalid": "Wrong username or password."
+      "forgot_password": "Forgot password?"
     }
+  },
+  "button": {
+    "login": "Login"
+  }
 }

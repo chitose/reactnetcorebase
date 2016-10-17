@@ -20,7 +20,7 @@ export interface AppSettings {
 
 export interface ServerInfo {
     language: string;
-    userProfile: LoginResponse;
+    profile: LoginResponse;
     resources: I18next.ResourceStore;
     settings: AppSettings;
 }

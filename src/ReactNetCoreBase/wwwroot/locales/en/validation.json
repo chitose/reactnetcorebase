@@ -1,3 +1,5 @@
 ﻿{
-    
+  "required": "The {{field}} is mandatory",
+  "min_length": "The {{field}} length must be at least {{count}} character",
+  "min_length_plural": "The {{field}} length must be at least {{count}} characters"
 }

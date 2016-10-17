@@ -1,0 +1,63 @@
+﻿@import 'variable.less';
+
+.form {
+  position: relative;
+
+  .form-header {
+    .form-title {
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    margin-bottom: @component-vert-margin;
+  }
+
+  .form-body {
+  }
+
+  .form-footer {
+    margin-top: @component-vert-margin;
+  }
+
+  .form-submitting {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+
+    .inline-loading-indicator {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -20px;
+      margin-top: -20px;
+
+      > div {
+        margin-right: 0 !important;
+        z-index: 11;
+      }
+    }
+  }
+
+  .validation-summary {
+    color: @validation-color;
+    word-break: break-all;
+
+    .validation-message {
+      position: relative;
+      padding-left: 30px;
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .field.text-box {
+    
+  }
+}

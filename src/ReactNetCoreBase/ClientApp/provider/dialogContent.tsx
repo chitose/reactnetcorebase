@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { FormApi } from './form';
+import { FormApi } from './formInterface';
 
 export interface DialogContentAPI {
     registerForm: { (form: FormApi): void };

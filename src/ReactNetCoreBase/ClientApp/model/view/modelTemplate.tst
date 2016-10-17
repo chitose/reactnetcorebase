@@ -26,18 +26,17 @@
         return new string(chars);
     }    
 
-    IEnumerable < Property > InheritedProperties(Class @class)
+    IEnumerable <Property> InheritedProperties(Class @class)
     {
         while (@class != null)
         {
             foreach(var p in @class.Properties)
-                if (!IsIgnoreProperty(p))
                 yield return p;
             @class = @class.BaseClass;
         }
-    }
+    }    
 
-    IEnumerable < Property > InheritedRequiredProperties(Class @class)
+    IEnumerable <Property> InheritedRequiredProperties(Class @class)
     {
         while (@class != null)
         {
@@ -48,7 +47,7 @@
         }
     }
 
-    IEnumerable < Property > InheritedOptionalProperties(Class @class)
+    IEnumerable <Property> InheritedOptionalProperties(Class @class)
     {
         while (@class != null)
         {
@@ -77,7 +76,23 @@
         }
     }
 
-  static Dictionary < File, IEnumerable < Type >> DependenciesCache = new Dictionary<File, IEnumerable<Type>>();
+  static List<string> validationAttributes = new List<string>{
+    "Required","MinLength","MaxLength","Min","Max"
+  };
+
+
+  IEnumerable <Property> ValidationProperties(Class @class)
+    {
+        while (@class != null)
+        {
+            foreach(var p in @class.Properties)
+              if (p.Attributes.Any(a => validationAttributes.Contains(a.Name)))
+                yield return p;
+            @class = @class.BaseClass;
+        }
+    }
+
+  static Dictionary <File, IEnumerable <Type>> DependenciesCache = new Dictionary<File, IEnumerable<Type>>();
 
     IEnumerable < Type > Dependencies(File file)
     {
@@ -99,6 +114,11 @@
 }// Auto-generated using typewriter -> from model.tst
 $HasEnumDependencies[import { $EnumDependencies[$Name][, ] } from '../enums';]
 $ClassDependencies[import { $Name } from './$name';]
+$Classes(ReactNetCoreBase.Models.View.*)[
+import {Constraints} from '../../service/validator';
+export const $Name_Rules = {$ValidationProperties[
+$name: [$Attributes[Constraints.$name($Value)][,]],]
+};]
 $Classes(ReactNetCoreBase.Models.View.*)[export interface $Name$IsGeneric[<T>] {
 $InheritedRequiredProperties[  $name: $Type;
 ]$InheritedOptionalProperties[  $name?: $Type;

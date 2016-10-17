@@ -11,7 +11,7 @@ interface SystemProviderState {
   confirmData: ConfirmInfo[];
   alertData: AlertInfo[];
   dialogData: DialogInfo<any>[];
-  snackData: SnackInfo;  
+  snackData: SnackInfo;
 }
 
 interface SnackInfo {
@@ -54,8 +54,9 @@ interface DialogInfo<T> {
 
 export interface SystemAPI {
   confirm: { (title: string, message: string, yesLabel?: string, noLabel?: string): Promise<Boolean> };
-  alert: { (title: string, message: string | string[] | JSX.Element[] | JSX.Element, okLabel?: string): Promise<Boolean> };
+  alert: { (title: string, message: string | string[] | JSX.Element[] | JSX.Element, okLabel?: string, instanceIdCb?: (value: number) => void): Promise<Boolean> };
   dialog: { <T>(title: string, content: React.ReactElement<any> | React.ReactElement<any>[], cssClass?: string, dialogStyle?: React.CSSProperties): Promise<T> }
+  closeAlert(instanceId: number): void;
   snack: { (message: React.ReactElement<any> | string | number, autoHideDuration?: number, action?: string, onActionClick?: React.TouchEventHandler): void };
   closeDialog(value: any, ignoreConfirm?: boolean): void;
 }
@@ -103,8 +104,11 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
     });
   }
 
-  alert(title: string, message: string | string[] | JSX.Element[] | JSX.Element, okLabel?: string): Promise<Boolean> {
+  alert(title: string, message: string | string[] | JSX.Element[] | JSX.Element, okLabel?: string, instanceIdCb?: (value: number) => void): Promise<Boolean> {
     var newId = this.state.instanceId++;
+    if (instanceIdCb) {
+      instanceIdCb(newId);
+    }
     return new Promise<Boolean>((resolve) => {
       var newAlertData = this.state.alertData;
       newAlertData.push({ open: true, id: newId, title: title, message: message, okLabel: okLabel, promiseResolve: resolve });
@@ -116,6 +120,13 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
     });
   }
 
+  closeAlert(instanceId: number) {
+    let ai = this.state.alertData.find(a => a.id === instanceId);
+    if (ai) {
+      this.closeAlertInt(ai);
+    }
+  }
+
   closeConfirm(ci: ConfirmInfo) {
     ci.open = false;
     this.setState(Object.assign({}, this.state, {
@@ -123,7 +134,7 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
     }));
   }
 
-  closeAlert(ai: AlertInfo) {
+  private closeAlertInt(ai: AlertInfo) {
     ai.open = false;
     this.setState(Object.assign({}, this.state, {
       alertData: this.state.alertData
@@ -140,7 +151,7 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
 
   renderAlertActions(ai: AlertInfo): JSX.Element[] {
     return [
-      <FlatButton label={this.i18n.t(ai.okLabel || "common:button.OK")} primary={true} onTouchTap={() => { ai.promiseResolve(true); this.closeAlert(ai) } }/>
+      <FlatButton label={this.i18n.t(ai.okLabel || "common:button.OK")} primary={true} onTouchTap={() => { ai.promiseResolve(true); this.closeAlertInt(ai) } }/>
     ];
   }
 
@@ -201,7 +212,7 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
         </Dialog>;
       })}
       {this.state.alertData.map(ai => {
-        return <Dialog key={`alert-${ai.id}`} title={ai.title} modal={true} open={ai.open} onRequestClose={() => this.closeAlert(ai)} actions={this.renderAlertActions(ai)}>
+        return <Dialog key={`alert-${ai.id}`} title={ai.title} modal={true} open={ai.open} onRequestClose={() => this.closeAlertInt(ai)} actions={this.renderAlertActions(ai)}>
           {Array.isArray(ai.message) ? (ai.message as string[]).map((m, i) => { return <p key={i}>{m}</p> }) : ai.message}
         </Dialog>
       })}

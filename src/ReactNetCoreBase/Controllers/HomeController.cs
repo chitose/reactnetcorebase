@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -15,6 +16,7 @@ using ReactNetCoreBase.Models.View;
 
 namespace ReactNetCoreBase.Controllers
 {
+[Authorize]
   public class HomeController : Controller
   {
     private static readonly string cacheDate = GetCacheDate();

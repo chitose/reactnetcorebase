@@ -108,7 +108,7 @@ declare namespace __MaterialUI {
       desktopKeylineIncrement?: number;
       desktopDropDownMenuItemHeight?: number;
       desktopDropDownMenuFontSize?: number;
-      desktopLeftNavMenuItemHeight?: number;
+      desktopDrawerMenuItemHeight?: number;
       desktopSubheaderHeight?: number;
       desktopToolbarHeight?: number;
     }

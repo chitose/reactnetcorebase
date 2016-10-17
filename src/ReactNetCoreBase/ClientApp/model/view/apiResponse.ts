@@ -2,9 +2,6 @@
 
 
 
-import {Constraints} from '../../service/validator';
-export const ApiResponse_Rules = {
-};
 export interface ApiResponse<T> {
   errorMessage: string;
   errorOptions: any;
@@ -13,3 +10,4 @@ export interface ApiResponse<T> {
   data: T;
   statusCode: number;
 }
+

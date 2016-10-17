@@ -58,6 +58,39 @@
         }
     }
 
+    string Validations(Property p)
+  {
+    var sb = new StringBuilder();
+    int count = 0;
+    foreach (var a in p.Attributes)
+    {
+      Func<string, string> validation;
+      if (!validations.TryGetValue(a.Name, out validation)) continue;
+      if (count++ > 0) sb.Append(", ");
+      sb.Append(validation(a.Value));
+    }
+    if (count > 1) sb.Insert(0, "[").Append("]");
+    return sb.ToString();
+  }
+
+    static readonly SortedDictionary<string, Func<string, string>> validations = new SortedDictionary<string, Func<string, string>>
+  {
+    { "Required", v => "Constraints.required()" },
+    { "MaxLength", v => "Constraints.maxLength("+v+")"},
+    { "MinLength", v => "Constraints.minLength("+v+")" }
+  };
+
+  IEnumerable <Property> ValidableProperties(Class @class)
+    {
+        while (@class != null)
+        {
+            foreach(var p in @class.Properties)
+                if (p.Attributes.Any(a => validations.ContainsKey(a.Name)))
+                yield return p;
+            @class = @class.BaseClass;
+        }
+    }
+
   private bool Visited(Type type, Dictionary < string, Type > set)
     {
         if (type.IsDefined && !set.ContainsKey(type.FullName)) {
@@ -74,23 +107,7 @@
             var t = p.Type.Unwrap();
             Visited(t, set);
         }
-    }
-
-  static List<string> validationAttributes = new List<string>{
-    "Required","MinLength","MaxLength","Min","Max"
-  };
-
-
-  IEnumerable <Property> ValidationProperties(Class @class)
-    {
-        while (@class != null)
-        {
-            foreach(var p in @class.Properties)
-              if (p.Attributes.Any(a => validationAttributes.Contains(a.Name)))
-                yield return p;
-            @class = @class.BaseClass;
-        }
-    }
+    }    
 
   static Dictionary <File, IEnumerable <Type>> DependenciesCache = new Dictionary<File, IEnumerable<Type>>();
 
@@ -109,17 +126,22 @@
     }
 
     bool HasEnumDependencies(File file) => Dependencies(file).Any(x => x.IsEnum);
-    IEnumerable < Type > EnumDependencies(File file) => Dependencies(file).Where(t => t.IsEnum);
-    IEnumerable < Type > ClassDependencies(File file) => Dependencies(file).Where(t => !t.IsEnum && t.name!="t");
+    bool HasValidatables(File file) => file.Classes.Any(c => ValidableProperties(c).Any());
+    IEnumerable <Type> EnumDependencies(File file) => Dependencies(file).Where(t => t.IsEnum);
+    bool HasValidatables(Class @class) => ValidableProperties(@class).Any();
+    IEnumerable <Type> ClassDependencies(File file) => Dependencies(file).Where(t => !t.IsEnum && t.name!="t");
 }// Auto-generated using typewriter -> from model.tst
 $HasEnumDependencies[import { $EnumDependencies[$Name][, ] } from '../enums';]
+$HasValidatables[import { Constraints } from '../../service/validator';]
 $ClassDependencies[import { $Name } from './$name';]
-$Classes(ReactNetCoreBase.Models.View.*)[
-import {Constraints} from '../../service/validator';
-export const $Name_Rules = {$ValidationProperties[
-$name: [$Attributes[Constraints.$name($Value)][,]],]
-};]
 $Classes(ReactNetCoreBase.Models.View.*)[export interface $Name$IsGeneric[<T>] {
 $InheritedRequiredProperties[  $name: $Type;
 ]$InheritedOptionalProperties[  $name?: $Type;
 ]}]
+
+$Classes(ReactNetCoreBase.Models.View.*)[$HasValidatables[
+export let $Name_Rules = {
+$ValidableProperties[$name: [$Validations]][,
+]
+};
+]]

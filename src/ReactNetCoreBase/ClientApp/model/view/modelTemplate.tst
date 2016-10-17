@@ -77,7 +77,8 @@
   {
     { "Required", v => "Constraints.required()" },
     { "MaxLength", v => "Constraints.maxLength("+v+")"},
-    { "MinLength", v => "Constraints.minLength("+v+")" }
+    { "MinLength", v => "Constraints.minLength("+v+")" },
+    {"MatchValidation", v=> "Constraints.match('"+v+"')"}
   };
 
   IEnumerable <Property> ValidableProperties(Class @class)

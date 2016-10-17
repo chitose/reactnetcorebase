@@ -28,6 +28,7 @@ export class Logged extends BaseComponent<any, void> {
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
       >
       <MenuItem primaryText={this.i18n.t("common:app_bar.personal_menu.sign_out")} onTouchTap={this.signout.bind(this)} />
+      <MenuItem primaryText={this.i18n.t("common:app_bar.personal_menu.profile")} onTouchTap={() => { browserHistory.push(RoutePaths.profile) } } />
     </IconMenu>
   }
 }

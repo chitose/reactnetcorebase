@@ -19,6 +19,7 @@ export interface RouteConfig {
 export const RoutePaths = {
   root: "/",
   login: "/login",
+  profile: "/profile",
   forbidden: "/forbidden"
 }
 

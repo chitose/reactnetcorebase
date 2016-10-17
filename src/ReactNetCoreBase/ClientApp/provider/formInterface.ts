@@ -21,6 +21,7 @@ export interface FormFieldApi {
   props: FormFieldProps;
   state: FormFieldState;
   value(val?: any): any;
+  form(): FormApi;
   reset(): void;
   focus(): void;  
 }

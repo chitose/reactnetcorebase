@@ -12,6 +12,17 @@
       "forgot_password": "Forgot password?"
     }
   },
+  "profile": {
+    "title": "Profile",
+    "label": {
+      "first_name": "Firstname",
+      "last_name": "Lastname",
+      "phone": "Telephone",
+      "email": "E-mail",
+      "password": "Password",
+      "password_match": "Re-type password"
+    }
+  },
   "button": {
     "login": "Login"
   }

@@ -2,13 +2,18 @@
 
 import { Constraints } from '../../service/validator';
 
-export interface LoginRequest {
+export class LoginRequest {
   userName: string;
   password: string;
+
+
+    static ValidationRules = {
+       userName: Constraints.required(),
+       password: Constraints.required()
+    };
+
+    static ColumnNames = {
+       userName : 'userName',
+       password : 'password',
+   };
 }
-
-
-export let LoginRequest_Rules = {
-userName: Constraints.required(),
-password: Constraints.required()
-};

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ServerInfoProvider, SystemProvider, DocumentTitleProvider } from './provider';
+import { ServerInfoProvider } from './provider';
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
@@ -37,12 +37,8 @@ i18n.changeLanguage(serverInfo.language);
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
     <MuiThemeProvider muiTheme={theme}>
-      <ServerInfoProvider serverInfo={serverInfo}>
-        <SystemProvider>
-          <DocumentTitleProvider>
-            <RouteProvider/>
-          </DocumentTitleProvider>
-        </SystemProvider>
+      <ServerInfoProvider serverInfo={serverInfo}>        
+        <RouteProvider/>        
       </ServerInfoProvider>
     </MuiThemeProvider>
   </I18nextProvider>,

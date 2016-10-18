@@ -5,11 +5,12 @@ import { AppSettings } from '../common';
 import * as formatter from './formatter';
 import { FormFieldApi } from '../provider/formInterface';
 
-export interface Validator {
-  isValid(field: FormFieldApi): string | null;
+export abstract class Validator {
+  abstract isValid(field: FormFieldApi): string | null;
+  dependencies: string[] = [];
 }
 
-class RequiredValidator implements Validator {
+class RequiredValidator extends Validator {
 
   isValid(field: FormFieldApi): string | null {
     const value = field.value();
@@ -20,8 +21,9 @@ class RequiredValidator implements Validator {
   }
 }
 
-class MinLengthValidator implements Validator {
+class MinLengthValidator extends Validator {
   constructor(private minLength: number) {
+    super();
   }
 
   isValid(field: FormFieldApi): string | null {
@@ -34,13 +36,14 @@ class MinLengthValidator implements Validator {
   }
 }
 
-class MaxLengthValidator implements Validator {
+class MaxLengthValidator extends Validator {
   constructor(private maxLength: number) {
+    super();
   }
 
   isValid(field: FormFieldApi): string | null {
     const value = field.value();
-    return value && value.length <= this.maxLength ? null :
+    return !value || value.length <= this.maxLength ? null :
       i18n.t("validation:max_length", {
         field: field.props.label,
         count: this.maxLength
@@ -48,13 +51,15 @@ class MaxLengthValidator implements Validator {
   }
 }
 
-class MatchValidator implements Validator {
-  constructor(private target) {    
+class MatchValidator extends Validator {
+  constructor(private target) {
+    super();
+    this.dependencies.push(this.target);
   }
 
   isValid(field: FormFieldApi): string | null {
     const value = field.value();
-    const targetField = field.form().getField(this.target);
+    const targetField = field.form.getField(this.target);
     return value === targetField.value() ? null :
       i18n.t("validation:match", {
         field: field.props.label,

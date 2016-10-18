@@ -2,10 +2,18 @@
 import { Right } from '../enums';
 
 
-export interface LoginResponse {
+export class LoginResponse {
   userName: string;
   rights: Right[];
   displayName: string;
   csrfToken: string;
-}
 
+
+
+    static ColumnNames = {
+       userName : 'userName',
+       rights : 'rights',
+       displayName : 'displayName',
+       csrfToken : 'csrfToken',
+   };
+}

@@ -3,7 +3,8 @@
   "dialog": {
     "title": {
       "request_failure": "Request error",
-      "long_wait": "Working..."
+      "long_wait": "Working...",
+      "un_saved_confirm": "Unsaved changes"
     },
     "label": {
       "exception_details": "Exception details"
@@ -15,17 +16,20 @@
     "security_exception": "Security violation.",
     "concurrency_exception": "Concurrency violation.",
     "runtime_exception": "Runtime exception occured.",
-    "long_waiting": "Please wait while we are working on it..."
+    "long_waiting": "Please wait while we are working on it...",
+    "un_saved_change_message": "You have un-saved changes in the form. Do you really want to leave?"
   },
   "button": {
     "no": "No",
     "yes": "Yes",
     "OK": "OK",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "app_bar": {
     "personal_menu": {
-      "sign_out": "Sign out"
+      "sign_out": "Sign out",
+      "profile": "My profile"
     },
     "button": {
       "login": "Login",

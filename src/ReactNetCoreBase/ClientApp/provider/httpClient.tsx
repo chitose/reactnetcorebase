@@ -2,6 +2,7 @@
 import { SystemAPI, SystemProviderConsumerComponent } from './system';
 import { ApiResponse } from '../model/view/apiResponse';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import { RouteComponentProps } from 'react-router';
 
 const SHOW_LONG_WAITING_DIALOG_DELAY = 1000;
 
@@ -146,7 +147,13 @@ export class HttpClientProvider extends SystemProviderConsumerComponent<any, Htt
 }
 
 export class BaseComponent<P, S> extends SystemProviderConsumerComponent<P, S> {
-  static contextTypes = Object.assign({}, HttpClientProvider.childContextTypes, SystemProviderConsumerComponent.contextTypes);
+  static contextTypes = Object.assign({},
+    HttpClientProvider.childContextTypes,
+    { "router": React.PropTypes.object },
+    SystemProviderConsumerComponent.contextTypes);
+  protected get router(): ReactRouter.RouterOnContext {
+    return this.context["router"] as ReactRouter.RouterOnContext;
+  }
   protected get httpClient(): HttpClientAPI {
     return this.context["httpClient"] as HttpClientAPI;
   }

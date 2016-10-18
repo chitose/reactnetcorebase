@@ -98,11 +98,13 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
   protected focusOnControl() {
   }
 
-  render() {
+  componentDidMount() {
     if (this.props.autoFocus) {
       setTimeout(() => { this.focusOnControl() }, 100);
     }
+  }
 
+  render() {    
     return <div className={"form field " + this.className + " " + (this.props["className"] || "")}>
       {this.renderChild()}
     </div>

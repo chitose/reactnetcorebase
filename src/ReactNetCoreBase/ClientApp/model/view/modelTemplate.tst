@@ -78,7 +78,7 @@
     { "Required", v => "Constraints.required()" },
     { "MaxLength", v => "Constraints.maxLength("+v+")"},
     { "MinLength", v => "Constraints.minLength("+v+")" },
-    {"MatchValidation", v=> "Constraints.match('"+v+"')"}
+    {"MatchValidation", v=> "Constraints.match('"+CamelCase(v)+"')"}
   };
 
   IEnumerable <Property> ValidableProperties(Class @class)
@@ -135,14 +135,17 @@
 $HasEnumDependencies[import { $EnumDependencies[$Name][, ] } from '../enums';]
 $HasValidatables[import { Constraints } from '../../service/validator';]
 $ClassDependencies[import { $Name } from './$name';]
-$Classes(ReactNetCoreBase.Models.View.*)[export interface $Name$IsGeneric[<T>] {
+$Classes(ReactNetCoreBase.Models.View.*)[export class $Name$IsGeneric[<T>] {
 $InheritedRequiredProperties[  $name: $Type;
 ]$InheritedOptionalProperties[  $name?: $Type;
-]}]
-
-$Classes(ReactNetCoreBase.Models.View.*)[$HasValidatables[
-export let $Name_Rules = {
-$ValidableProperties[$name: $Validations][,
 ]
-};
-]]
+$HasValidatables[
+    static ValidationRules = {
+$ValidableProperties[       $name: $Validations][,
+]
+    };]
+
+    static ColumnNames = {
+$InheritedProperties[       $name : '$name',
+]   };
+}]

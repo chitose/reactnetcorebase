@@ -8,6 +8,7 @@ import { Layout } from './page/layout';
 import { HomePage } from './page/home';
 import { PageNotFound } from './page/404';
 import { LoginPage } from './page/security/login';
+import { ProfilePage } from './page/security/profile';
 
 export interface RouteConfig {
   path?: string;
@@ -26,6 +27,7 @@ export const RoutePaths = {
 const routesConfig: RouteConfig[] = [
   { component: HomePage, indexed: true, auth: true, path: RoutePaths.root },
   { component: LoginPage, path: RoutePaths.login },
+  { component: ProfilePage, path: RoutePaths.profile, auth: true }
 ];
 
 export class RouteProvider extends ServerInfoConsumerComponent<any, void> {

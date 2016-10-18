@@ -19,6 +19,7 @@
     [Phone] NVARCHAR(30) NULL, 
     [Email] NVARCHAR(256) NULL, 
     [RowVersion] TIMESTAMP NOT NULL,
+    [Image] VARBINARY(MAX) NULL, 
     CONSTRAINT [FK_User_Role] FOREIGN KEY ([RoleId]) REFERENCES [Role]([Id])
 )
 

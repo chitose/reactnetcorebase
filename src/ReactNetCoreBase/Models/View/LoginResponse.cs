@@ -12,5 +12,6 @@ namespace ReactNetCoreBase.Models.View
     public IEnumerable<Right> Rights { get; set; }
     public string DisplayName { get; set; }
     public string CsrfToken { get; set; }
+    public int Id { get; set; }
   }
 }

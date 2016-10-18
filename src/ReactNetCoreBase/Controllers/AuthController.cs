@@ -38,6 +38,8 @@ namespace ReactNetCoreBase.Controllers
       }
       Loggers.Authentication.Info($"Login: User {request.UserName} logged in successfully.");
       return new LoginResponse {
+        Id = user.Id,        
+        CsrfToken = user.SecurityStamp,
         UserName = user.UserName,
         DisplayName = user.DisplayName,
         Rights = user.Role.Rights.Select(p => p.Right)

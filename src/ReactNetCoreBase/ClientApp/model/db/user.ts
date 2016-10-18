@@ -8,6 +8,8 @@ export interface User {
   lastName: string;
   roleId: number;
   role: Role;
+  phone: string;
+  email: string;
   securityStamp: string;
   lockoutEnd: Date;
   lockoutEnabled: boolean;
@@ -19,4 +21,5 @@ export interface User {
   editorId?: number;
   modified?: Date;
   created?: Date;
+  rowVersion?: number[];
 }

@@ -7,6 +7,7 @@ export class LoginResponse {
   rights: Right[];
   displayName: string;
   csrfToken: string;
+  id: number;
 
 
 
@@ -15,5 +16,6 @@ export class LoginResponse {
        rights : 'rights',
        displayName : 'displayName',
        csrfToken : 'csrfToken',
+       id : 'id',
    };
 }

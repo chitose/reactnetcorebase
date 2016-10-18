@@ -40,6 +40,7 @@ namespace ReactNetCoreBase.Controllers
         if (user != null)
         {
           profile = new LoginResponse {
+            Id = user.Id,
             Rights = User.Claims.Where(c => c.Type == Claims.Right).Select(c => (Right)int.Parse(c.Value)),
             CsrfToken = User.FindFirst(Claims.SecurityToken).Value,
             UserName = user.UserName,

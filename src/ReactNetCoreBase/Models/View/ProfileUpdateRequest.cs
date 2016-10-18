@@ -27,5 +27,7 @@ namespace ReactNetCoreBase.Models.View {
 
     [MaxLength(256)]
     public string Email { get; set; }
+
+    public byte[] Image { get; set; }
   }
 }

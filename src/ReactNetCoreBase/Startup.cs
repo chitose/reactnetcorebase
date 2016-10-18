@@ -90,7 +90,7 @@ namespace ReactNetCoreBase
       });
 
       // node service for server-side rendering
-      services.AddNodeServices();
+      //services.AddNodeServices();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +101,8 @@ namespace ReactNetCoreBase
       {
         loggerFactory.AddDebug();
       }
+
+      app.UseSecurityHeaders(new SecurityHeadersBuilder().AddDefaultSecurePolicy());
 
       app.UseStaticFiles();
 

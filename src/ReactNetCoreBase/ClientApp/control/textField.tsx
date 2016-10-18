@@ -9,13 +9,7 @@ interface Props extends FormFieldProps, __MaterialUI.TextFieldProps {
 
 export class FormTextField extends Field<Props, FormFieldState, TextField> {
   static muiName = "TextField";
-  className = "text-box";
-
-  initState() {
-    return Object.assign({}, super.initState(), {
-      errorText: ""
-    });
-  }
+  className = "text-box";  
 
   renderChild() {
     return <TextField

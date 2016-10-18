@@ -46,6 +46,7 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
   }
 
   updateStatus(errors: string[], onSubmit?: boolean, cb?: () => void) {
+    this.state.isValid = errors.length === 0;
     if (onSubmit || this.state.isTouched) {
       this.state.errors = errors;
       this.setState(this.state, cb);
@@ -59,6 +60,7 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
   value(val?: any) {
     if (val !== undefined) {
       this.state.value = val;
+      this.state.isDirty = true;
       console.log(`Field ${this.props.name} value changed`);
       console.log(val);
       this.setState(this.state, () => {
@@ -104,8 +106,25 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
     }
   }
 
-  render() {    
-    return <div className={"form field " + this.className + " " + (this.props["className"] || "")}>
+  getControlStatuses() {
+    let css = [];
+    if (this.state.isDirty)
+      css.push("field-dirty");
+    else
+      css.push("field-pristine");
+    if (this.state.isValid)
+      css.push("field-valid");
+    else
+      css.push("field-invalid");
+    if (this.state.isTouched)
+      css.push("field-touched");
+    else
+      css.push("field-untouched");
+    return css.join(" ");
+  }
+
+  render() {
+    return <div className={"form field " + this.getControlStatuses() + " " + this.className + " " + (this.props["className"] || "")}>
       {this.renderChild()}
     </div>
   }

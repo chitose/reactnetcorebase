@@ -9,6 +9,7 @@ export class ProfileUpdateRequest {
   passwordMatch: string;
   phone: string;
   email: string;
+  image: number[];
 
 
     static ValidationRules = {
@@ -27,5 +28,6 @@ export class ProfileUpdateRequest {
        passwordMatch : 'passwordMatch',
        phone : 'phone',
        email : 'email',
+       image : 'image',
    };
 }

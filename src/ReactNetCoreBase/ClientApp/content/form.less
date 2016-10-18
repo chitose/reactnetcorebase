@@ -13,11 +13,11 @@
   }
 
   .form-body {
-    
   }
 
   .form-footer {
     margin-top: @component-vert-margin;
+
     > div {
       margin-right: 10px;
 
@@ -66,5 +66,139 @@
   }
 
   .field.text-box {
+  }
+}
+
+
+@file-upload-border: #e5e5e5;
+
+@file-upload-color: #777;
+
+
+.file-upload-container {
+  &:not(.inline) {
+    position: relative;
+
+    .file-upload {
+      overflow: hidden;
+      position: absolute;
+
+      .preview-img {
+        max-width: none;
+      }
+    }
+  }
+}
+
+.file-upload {
+  position: relative;
+  border: 1px solid @file-upload-border;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+  line-height: 22px;
+
+  button {
+    z-index: 3;
+    display: none !important;
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    font-size: 40px;
+
+    .icon {
+      color: #fff !important;
+    }
+  }
+
+  .info-wrapper {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    color: @file-upload-color;
+
+    .icon {
+      color: @file-upload-color !important;
+      font-size: 48px !important;
+      display: block !important;
+    }
+  }
+
+  &.has-file {
+    button {
+      display: block !important;
+    }
+
+    .info-wrapper {
+      display: none;
+    }
+
+    &:hover, &.ctrl-invalid {
+      .preview-container {
+        opacity: 1;
+      }
+    }
+  }
+
+  .preview-img {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    max-height: 100%;
+    max-width: 100%;
+    transform: translate(-50%,0);
+  }
+
+  .preview-container {
+    background: rgba(0,0,0,0.6);
+    opacity: 0;
+    transition: all 0.15s linear;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    .preview {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .file-info {
+      font-weight: 700;
+    }
+  }
+
+  .file-icon {
+    position: absolute !important;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 64px !important;
+    color: @file-upload-color !important;
+  }
+
+  .error {
+    color: #ff0000 !important;
+  }
+
+  .file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  &:not(.has-file):hover {
+    background-size: 30px 30px;
+    background-image: linear-gradient(-45deg,#F6F6F6 25%,transparent 25%,transparent 50%,#F6F6F6 50%,#F6F6F6 75%,transparent 75%,transparent);
+    animation: stripes 2s linear infinite;
   }
 }

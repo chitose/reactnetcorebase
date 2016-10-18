@@ -28,9 +28,7 @@ namespace ReactNetCoreBase.Controllers
       this.settings = settings.Value;
       this.env = env;
     }
-
-    [AddHeader("X-Frame-Options", "deny")]
-    [AddHeader("X-XSS-Protection", "1; mode=block")]
+        
     public IActionResult Index()
     {
       LoginResponse profile = null;

@@ -30,6 +30,10 @@ interface FileUploadState extends FormFieldState {
 
 export class FileUpload extends Field<FileUploadProps, FileUploadState, HTMLInputElement> {
   private fileInput: HTMLInputElement;
+  static defaultProps = {
+    hintMessageNew: "",
+    hintMessageReplace:""
+  }
 
   constructor(props: FileUploadProps, ctx) {
     super(props, ctx);
@@ -185,14 +189,13 @@ export class FileUpload extends Field<FileUploadProps, FileUploadState, HTMLInpu
     }
   }
 
-  renderChild() {
-    ////{this.state.previewIcon ? <FontIcon className={this.state.previewIcon}/> : null}
+  renderChild() {    
     return <div className={"file-upload-container " + (!this.props.height ? "inline" : "")}>
-      <div className={"file-upload "} ref={(d) => { this.containerDiv = d } } style={{ height: this.props.height }}>
+      <div className={"file-upload " + (this.state.previewData ? "has-file": "")} ref={(d) => { this.containerDiv = d } } style={{ height: this.props.height }}>
         <FlatButton onTouchTap={() => this.removeFile()} icon={<Clear/>}></FlatButton>
         <div className="info-wrapper">
-          <Backup/>
-          <div className="info">{this.props.hintMessageNew}</div>
+          {this.state.previewData ? null : <Backup />}
+          <div className="info">{this.getHintLabel()}</div>
           <div className="error">{this.getErrorElement()}</div>
         </div>
         <input type="file" className="file" onChange={this.handleFileChange.bind(this)} ref={(ip) => this.fileInput = ip}/>

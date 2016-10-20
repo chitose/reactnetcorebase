@@ -19,7 +19,7 @@ export class LoginPage extends BaseComponent<RouteComponentProps<{ rurl: string 
       let info = this.serverInfo.info;
       info.profile = resp.data;
       this.serverInfo.updateServerInfo(info);
-      browserHistory.push(this.props.params.rurl || RoutePaths.root);
+      browserHistory.push(this.props.location.state["nextPathname"] || RoutePaths.root);
     }
     return resp;
   }

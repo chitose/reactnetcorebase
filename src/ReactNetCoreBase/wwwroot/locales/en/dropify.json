@@ -1,0 +1,17 @@
+﻿{
+  "message": {
+    "default": "Drag and drop a file here or click",
+    "replace": "Drag and drop or click to replace",
+    "remove": "Remove",
+    "error": "Ooops, something wrong appended."
+  },
+  "error": {
+    "file_size": "The file size is too big ({{value}} max)",
+    "min_width": "The image width is too small ({{value}}px min).",
+    "max_width": "The image width is too big ({{value}}px max).",
+    "min_height": "The image height is too small ({{value}}px min).",
+    "max_height": "The image height is too big ({{value}}px max).",
+    "image_format": "The image format is not allowed ({{value}} only).",
+    "file_extension": "The file is not allowed ({{value}} only)."
+  }
+}

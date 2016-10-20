@@ -2,8 +2,6 @@
 
 import { LoginResponse } from './model/view/loginResponse';
 
-export const LANGUAGE_MODULES = ['common', 'security', 'validation'];
-
 export interface Dictionary<T> {
     [key: string]: T;
 }

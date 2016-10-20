@@ -15,7 +15,7 @@ import { RouteProvider } from './routes';
 
 injectTapEventPlugin();
 
-import { ServerInfo, LANGUAGE_MODULES } from './common';
+import { ServerInfo } from './common';
 
 import theme from './theme/theme';
 
@@ -25,7 +25,7 @@ i18n
   .init({
     resources: serverInfo.resources,
     fallbackLng: 'en',
-    ns: LANGUAGE_MODULES,
+    ns: Object.keys(serverInfo.resources["en"]),
     defaultNS: 'common',
     interpolation: {
       escapeValue: false // not needed for react!!

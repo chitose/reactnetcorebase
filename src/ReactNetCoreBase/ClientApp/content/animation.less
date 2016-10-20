@@ -1,29 +1,13 @@
-﻿@-webkit-keyframes stripes {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 60px 30px;
-  }
+﻿@keyframes stripes {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 30px; }
 }
 
-@-moz-keyframes stripes {
-  from {
-    background-position: 0 0;
+@keyframes rotate {
+  0% {
+    transform: rotateZ(-360deg);
   }
-
-  to {
-    background-position: 60px 30px;
-  }
-}
-
-@keyframes stripes {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 60px 30px;
+  100% {
+    transform: rotateZ(0deg);
   }
 }

@@ -66,7 +66,7 @@ namespace ReactNetCoreBase.Controllers
     {
       string assemblyFile = typeof(HomeController).Assembly.Location;
       return new FileInfo(assemblyFile).LastWriteTime.ToString("yyyy-MM-dd@HH:mm:ss", CultureInfo.InvariantCulture);
-    }
+    }    
 
     private object GetJsonResource()
     {

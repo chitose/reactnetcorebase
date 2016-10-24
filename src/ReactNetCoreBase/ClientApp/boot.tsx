@@ -9,7 +9,7 @@ import i18n from 'i18next';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import moment from 'moment';
 
 import { RouteProvider } from './routes';
 
@@ -33,6 +33,12 @@ i18n
   });
 
 i18n.changeLanguage(serverInfo.language);
+
+moment.locale(serverInfo.language);
+
+i18n.on("languageChanged", (opts: I18next.Options) => {
+  moment.locale(i18n.language);
+});
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>

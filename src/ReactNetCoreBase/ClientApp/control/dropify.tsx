@@ -141,6 +141,46 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
   }
 
   resetPreview() {
+    this.state.loadedFileInfo = {
+      name: "",
+      size: 0,
+      type: "",
+      width: 0,
+      height: 0,
+      base64: "",
+      previewable: false
+    }
+  }
+
+  getImageFormat(): DropifyAllowedFormat {
+    if (this.state.loadedFileInfo.width == this.state.loadedFileInfo.height)
+      return "square";
+    if (this.state.loadedFileInfo.width < this.state.loadedFileInfo.height)
+      return "portrait";
+    if (this.state.loadedFileInfo.width > this.state.loadedFileInfo.height)
+      return "landscape";
+  }
+
+  validateImage() {
+    if (this.mergedProps.minWidth !== 0 && this.mergedProps.minWidth >= this.state.loadedFileInfo.width) {
+      this.state.errors.push(this.i18n.t(this.mergedProps.error.minWidth, { value: this.mergedProps.minWidth } as any));
+    }
+
+    if (this.mergedProps.maxWidth !== 0 && this.mergedProps.maxWidth <= this.state.loadedFileInfo.width) {
+      this.state.errors.push(this.i18n.t(this.mergedProps.error.maxWidth, { value: this.mergedProps.maxWidth } as any));
+    }
+
+    if (this.mergedProps.minHeight !== 0 && this.mergedProps.minHeight >= this.state.loadedFileInfo.height) {
+      this.state.errors.push(this.i18n.t(this.mergedProps.error.minHeight, { value: this.mergedProps.minHeight } as any));
+    }
+
+    if (this.mergedProps.maxHeight !== 0 && this.mergedProps.maxHeight <= this.state.loadedFileInfo.height) {
+      this.state.errors.push(this.i18n.t(this.mergedProps.error.maxHeight, { value: this.mergedProps.maxHeight } as any));
+    }
+
+    if (this.mergedProps.allowedFormats.indexOf(this.getImageFormat()) == -1) {
+      this.state.errors.push(this.i18n.t(this.mergedProps.error.imageFormat, { value: this.mergedProps.allowedFormats.join(", ") } as any));
+    }
   }
 
   readFile() {
@@ -175,6 +215,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
               this.state.loadedFileInfo.width = image.width;
               this.state.loadedFileInfo.height = image.height;
               this.state.loadedFileInfo.previewable = true;
+              this.validateImage();
               this.setState(this.state, () => { this.onFileReady(); });
             }
           });
@@ -263,7 +304,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
       <span className="dropify-render">
         {this.state.loadedFileInfo.previewable ? <img src={this.state.loadedFileInfo.base64} style={imageStyle} />
           : <span>
-            <i className="dropify-font-file"/><span className="dropify-extension">{this.getFileType()}</span>
+            <i className="dropify-font-file" /><span className="dropify-extension">{this.getFileType()}</span>
           </span>}
       </span>
       <div className="dropify-infos">
@@ -282,10 +323,10 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
         <p>{this.i18n.t(this.mergedProps.messages.default)}</p>
         {this.state.errors.length > 0 ? <p className="dropify-error">{this.i18n.t(this.mergedProps.messages.error)}</p> : null}
       </div>
-      {this.mergedProps.showLoader && this.state.loaderActive ? <div className="dropify-loader"/> : null}
+      {this.mergedProps.showLoader && this.state.loaderActive ? <div className="dropify-loader" /> : null}
       {this.renderPreview()}
       {this.mergedProps.showErrors ? this.renderErrors() : null}
-      <input type= "file" onChange= {this.onChange} ref={(c) => this.childControl = c} onMouseEnter={() => { this.state.hovered = true; this.setState(this.state) } } onMouseOut={() => { this.state.hovered = false; this.setState(this.state) } } />
+      <input type="file" onChange={this.onChange} ref={(c) => this.childControl = c} onMouseEnter={() => { this.state.hovered = true; this.setState(this.state) } } onMouseOut={() => { this.state.hovered = false; this.setState(this.state) } } />
       {!this.mergedProps.disabled && this.mergedProps.showRemove ? <button className="dropify-clear" type="button" onClick={this.removeElement}>{this.i18n.t(this.mergedProps.messages.remove)}</button> : null}
     </div>;
   }

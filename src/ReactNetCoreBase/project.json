@@ -9,7 +9,7 @@
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
-    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0",    
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
@@ -74,7 +74,6 @@
       "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress",
       "node node_modules/webpack/bin/webpack.js -d --color --inline --progress"
     ],
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ],
-    "web": [ "Microsoft.AspNet.Hosting –server Microsoft.AspNet.Server.WebListener –server.urls https://localhost:5043" ]
+    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   }
 }

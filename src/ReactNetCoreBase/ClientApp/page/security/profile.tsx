@@ -30,30 +30,29 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
                 rules={ProfileUpdateRequest.ValidationRules}>
                 <div className="row">
                   <div className="col-xs-9">
-                    <FormTextField name={ProfileUpdateRequest.ColumnNames.firstName} autoFocus={true} label={this.i18n.t("security:profile.label.first_name")}/>
+                    <FormTextField name={ProfileUpdateRequest.ColumnNames.firstName} autoFocus={true} label={this.i18n.t("security:profile.label.first_name")} />
                   </div>
                   <div className="col-xs-3">
-                    <Dropify name="test1" showInfo={false}/>
+                    <Dropify name={ProfileUpdateRequest.ColumnNames.image} showInfo={false} allowedFormats={["portrait"]} />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-xs-9">
-                    <FormTextField name={ProfileUpdateRequest.ColumnNames.lastName} label={this.i18n.t("security:profile.label.last_name")}/>
+                    <FormTextField name={ProfileUpdateRequest.ColumnNames.lastName} label={this.i18n.t("security:profile.label.last_name")} />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-xs-9">
-                    <FormTextField name={ProfileUpdateRequest.ColumnNames.phone} label={this.i18n.t("security:profile.label.phone")}/>
+                    <FormTextField name={ProfileUpdateRequest.ColumnNames.phone} label={this.i18n.t("security:profile.label.phone")} />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-xs-9">
-                    <FormTextField name={ProfileUpdateRequest.ColumnNames.email} label={this.i18n.t("security:profile.label.email")}/>
+                    <FormTextField name={ProfileUpdateRequest.ColumnNames.email} label={this.i18n.t("security:profile.label.email")} />
                   </div>
                 </div>
-                <FormTextField name={ProfileUpdateRequest.ColumnNames.password} label={this.i18n.t("security:profile.label.password")}/>
-                <FormTextField name={ProfileUpdateRequest.ColumnNames.passwordMatch} label={this.i18n.t("security:profile.label.password_match")}/>
-                <Dropify name="test" allowedFileExtensions={['gif']} maxFileSize="300K"/>
+                <FormTextField name={ProfileUpdateRequest.ColumnNames.password} label={this.i18n.t("security:profile.label.password")} />
+                <FormTextField name={ProfileUpdateRequest.ColumnNames.passwordMatch} label={this.i18n.t("security:profile.label.password_match")} />
               </Form>
             </Paper>
           </div>

@@ -32,26 +32,28 @@ namespace ReactNetCoreBase
     {
       s_env = env;
 
+      var logConfig = new XmlLoggingConfiguration(Path.Combine(env.ContentRootPath, "NLog.config"));
+      LogManager.Configuration = logConfig;
+      Loggers.Default.Info($"Starting Web - mode: {env.EnvironmentName}");
+
       var builder = new ConfigurationBuilder()
           .SetBasePath(env.ContentRootPath)
           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+          .AddJsonFile($"appsettings.{env.EnvironmentName.Trim()}.json", optional: true);
 
-      if (env.IsDevelopment())
-      {
-        // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-        builder.AddUserSecrets();
-      }
+      //if (env.IsDevelopment())
+      //{
+        //builder.AddUserSecrets();
+      //}
 
       builder.AddEnvironmentVariables();
       Configuration = builder.Build();
 
       Configuration.GetSection("Settings").Bind(settings);
-
-      var logConfig = new XmlLoggingConfiguration(Path.Combine(env.ContentRootPath, "NLog.config"));
-      LogManager.Configuration = logConfig;
-      Loggers.Default.Info("Starting Web");
+      
       AppDbConfig.ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
+
+      Loggers.Default.Info($"Data connection: {AppDbConfig.ConnectionString}");
     }
 
     public IConfigurationRoot Configuration { get; }

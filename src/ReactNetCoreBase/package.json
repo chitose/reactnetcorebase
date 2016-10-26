@@ -48,6 +48,8 @@
     "whatwg-fetch": "^1.0.0"
   },
   "scripts": {
-    "build-vendor": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress"
+    "build-vendor": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress",
+    "watch":"SET NODE_ENV=development&& node node_modules/webpack/bin/webpack.js -d --watch --color",
+    "start-dev": "set ASPNETCORE_ENVIRONMENT=Development&& dotnet run"
   }
 }

@@ -183,6 +183,10 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
   }
 
   submit() {
+    Object.keys(this.fields).forEach(k => {
+      this.model[k] = this.fields[k].value();
+    });
+
     this.validate();
     this.state.valid = Object.keys(this.validationError).length === 0;
     this.state.submitted = false;

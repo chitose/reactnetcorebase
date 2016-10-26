@@ -18,6 +18,7 @@ export class FormTextField extends Field<Props, FormFieldState, TextField> {
       floatingLabelText={this.props.label}
       {...this.propsForChild}
       onFocus={this.touched}
+      value={this.state.value}
       onChange={(evt) => { this.value((evt.target as HTMLInputElement).value) } } />
   }
 }

@@ -22,6 +22,7 @@ export class DatePickerField extends Field<Props, FormFieldState, DatePicker> {
       floatingLabelText={this.props.label}
       {...this.propsForChild}
       formatDate={this.formatDate}
+      value={this.state.value}
       onFocus={this.touched}
       onChange={(evt, date: Date) => { this.value(date) } } />
   }

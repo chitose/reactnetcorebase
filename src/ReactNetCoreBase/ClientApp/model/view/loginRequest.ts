@@ -3,8 +3,8 @@
 import { Constraints } from '../../service/validator';
 
 export class LoginRequest {
-  userName: string;
-  password: string;
+  userName: string | null;
+  password: string | null;
 
 
     static ValidationRules = {

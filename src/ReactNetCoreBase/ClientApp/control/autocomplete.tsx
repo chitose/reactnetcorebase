@@ -41,7 +41,7 @@ export class AutoCompleteField extends Field<Props, State, AutoComplete> {
       errorText={this.getErrorElement()}
       fullWidth={true}
       floatingLabelText={this.props.label}
-      {...this.propsForChild}      
+      {...this.propsForChild}
       onFocus={this.touched}
       onUpdateInput={this.onUpdateInput}
       onNewRequest={this.onNewRequest} />

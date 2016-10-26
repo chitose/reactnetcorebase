@@ -30,7 +30,6 @@ type DropifyTemplate = {
   errorsContainer?: (content: React.ReactElement<any>[]) => React.ReactElement<any>;
 }
 interface DropifyProps extends FormFieldProps {
-  defaultFile?: string;
   maxFileSize?: string;
   minWidth?: number;
   maxWidth?: number;
@@ -58,7 +57,6 @@ interface DropifyState extends FormFieldState {
     type: string;
     width?: number;
     height?: number;
-    base64?: string;
     previewable: boolean;
   }
 }
@@ -79,7 +77,6 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
         size: 0,
         width: 0,
         height: 0,
-        base64: "",
         previewable: false
       }
     });
@@ -125,7 +122,6 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
     this.state.loadedFileInfo = {
       name: "",
       size: 0,
-      base64: "",
       type: "",
       width: 0,
       height: 0,
@@ -147,7 +143,6 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
       type: "",
       width: 0,
       height: 0,
-      base64: "",
       previewable: false
     }
   }
@@ -186,7 +181,8 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
   readFile() {
     if (this.childControl.files && this.childControl.files[0]) {
       let file = this.childControl.files[0];
-
+      this.state.isDirty = true;
+      this.state.isTouched = true;
       this.state.errors = [];
       if (this.mergedProps.showLoader)
         this.state.loaderActive = true;
@@ -197,18 +193,17 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
         type: file.type,
         width: 0,
         height: 0,
-        base64: "",
         previewable: false
       }
 
       this.setState(this.state, () => {
         this.checkFileSize();
         this.isFileExtensionAllowed();
-
+        this.state.isDirty = this.state.errors.length === 0;
         if (this.state.errors.length === 0 && this.isImage() && file.size < this.sizeToByte(this.mergedProps.maxFileSizePreview)) {
           let reader = new FileReader();
           reader.addEventListener("load", () => {
-            this.state.loadedFileInfo.base64 = reader.result;
+            this.value(reader.result.split(',')[1]);            
             let image = new Image();
             image.src = reader.result;
             image.onload = () => {
@@ -216,6 +211,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
               this.state.loadedFileInfo.height = image.height;
               this.state.loadedFileInfo.previewable = true;
               this.validateImage();
+              this.state.isDirty = this.state.errors.length === 0;
               this.setState(this.state, () => { this.onFileReady(); });
             }
           });
@@ -302,7 +298,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
     const imageStyle: React.CSSProperties = this.mergedProps.maxHeight > 0 ? { maxHeight: this.mergedProps.maxHeight } : {};
     return <div className="dropify-preview">
       <span className="dropify-render">
-        {this.state.loadedFileInfo.previewable ? <img src={this.state.loadedFileInfo.base64} style={imageStyle} />
+        {this.state.loadedFileInfo.previewable ? <img src={`data:${this.state.loadedFileInfo.type};base64,${this.state.value}`} style={imageStyle} />
           : <span>
             <i className="dropify-font-file" /><span className="dropify-extension">{this.getFileType()}</span>
           </span>}

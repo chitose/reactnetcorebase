@@ -42,7 +42,11 @@ namespace ReactNetCoreBase.Controllers
             Rights = User.Claims.Where(c => c.Type == Claims.Right).Select(c => (Right)int.Parse(c.Value)),
             CsrfToken = User.FindFirst(Claims.SecurityToken).Value,
             UserName = user.UserName,
-            DisplayName = user.DisplayName
+            DisplayName = user.DisplayName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            Phone = user.Phone
           };
         }
       }

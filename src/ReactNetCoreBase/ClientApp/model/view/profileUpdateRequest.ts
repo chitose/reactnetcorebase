@@ -3,13 +3,13 @@
 import { Constraints } from '../../service/validator';
 
 export class ProfileUpdateRequest {
-  firstName: string;
-  lastName: string;
-  password: string;
-  passwordMatch: string;
-  phone: string;
-  email: string;
-  image: number[];
+  firstName: string | null;
+  lastName: string | null;
+  password: string | null;
+  passwordMatch: string | null;
+  phone: string | null;
+  email: string | null;
+  image: string;
 
 
     static ValidationRules = {
@@ -18,7 +18,7 @@ export class ProfileUpdateRequest {
        password: Constraints.match('passwordMatch'),
        passwordMatch: Constraints.match('password'),
        phone: Constraints.maxLength(30),
-       email: Constraints.maxLength(256)
+       email: [Constraints.maxLength(256), Constraints.email()]
     };
 
     static ColumnNames = {

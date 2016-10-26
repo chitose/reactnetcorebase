@@ -41,16 +41,16 @@ namespace ReactNetCoreBase
           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
           .AddJsonFile($"appsettings.{env.EnvironmentName.Trim()}.json", optional: true);
 
-      //if (env.IsDevelopment())
-      //{
-        //builder.AddUserSecrets();
-      //}
+      if (env.IsDevelopment())
+      {
+        builder.AddUserSecrets();
+      }
 
       builder.AddEnvironmentVariables();
       Configuration = builder.Build();
 
       Configuration.GetSection("Settings").Bind(settings);
-      
+
       AppDbConfig.ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
 
       Loggers.Default.Info($"Data connection: {AppDbConfig.ConnectionString}");

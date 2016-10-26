@@ -3,11 +3,15 @@ import { Right } from '../enums';
 
 
 export class LoginResponse {
-  userName: string;
+  userName: string | null;
   rights: Right[];
-  displayName: string;
-  csrfToken: string;
+  displayName: string | null;
+  csrfToken: string | null;
   id: number;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phone: string | null;
 
 
 
@@ -17,5 +21,9 @@ export class LoginResponse {
        displayName : 'displayName',
        csrfToken : 'csrfToken',
        id : 'id',
+       firstName : 'firstName',
+       lastName : 'lastName',
+       email : 'email',
+       phone : 'phone',
    };
 }

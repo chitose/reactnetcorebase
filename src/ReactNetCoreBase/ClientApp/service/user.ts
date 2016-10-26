@@ -3,6 +3,7 @@
 import {ApiResponse} from '../model/view/apiResponse';
 import {HttpClientAPI} from '../provider/httpClient';
 
+import {ProfileUpdateRequest} from '../model/view/profileUpdateRequest';
 
 
 
@@ -11,5 +12,9 @@ export function userImage(id: number) {
 }
 export function userThumb(id: number) {
   return `/api/user/userThumb${id}`;
+}
+
+export function updateProfile(api: HttpClientAPI,request: ProfileUpdateRequest) {
+  return api.http<ApiResponse<ProfileUpdateRequest>>(`/api/user/updateProfile`, { method: 'post' , body: JSON.stringify(request) });
 }
 

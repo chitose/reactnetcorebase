@@ -4,5 +4,6 @@
   "min_length_plural": "The {{field}} length must be at least {{count}} characters",
   "max_length": "The {{field}} length must not exceed {{count}} character",
   "max_length_plural": "The {{field}} length must not exceed {{count}} characters",
-  "match": "The {{field}} does not match {{target}}"
+  "match": "The {{field}} does not match {{target}}",
+  "email": "The {{field}}'s value is not email address"
 }

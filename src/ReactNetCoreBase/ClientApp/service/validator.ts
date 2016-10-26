@@ -68,6 +68,20 @@ class MatchValidator extends Validator {
   }
 }
 
+class EmailValidator extends Validator {
+  constructor() {
+    super();
+  }
+
+  isValid(field: FormFieldApi): string | null {
+    const value = field.value();
+    return ValidatorLib.isEmail(value) ? null :
+      i18n.t("validation:email", {
+        field: field.props.label
+      } as any);
+  }
+}
+
 export class Constraints {
   static required() {
     return new RequiredValidator();
@@ -83,5 +97,9 @@ export class Constraints {
 
   static match(target: string) {
     return new MatchValidator(target);
+  }
+
+  static email() {
+    return new EmailValidator();
   }
 }

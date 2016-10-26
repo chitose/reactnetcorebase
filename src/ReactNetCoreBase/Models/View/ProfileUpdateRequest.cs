@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactNetCoreBase.Data.Validation;
+using ReactNetCoreBase.Infrastructure.Attributes;
 
 namespace ReactNetCoreBase.Models.View {
   public class ProfileUpdateRequest {
@@ -26,8 +27,10 @@ namespace ReactNetCoreBase.Models.View {
     public string Phone { get; set; }
 
     [MaxLength(256)]
+    [EmailAddress]
     public string Email { get; set; }
 
+    [BinaryImage]
     public byte[] Image { get; set; }
   }
 }

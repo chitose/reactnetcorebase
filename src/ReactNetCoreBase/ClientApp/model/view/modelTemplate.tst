@@ -78,7 +78,8 @@
     { "Required", v => "Constraints.required()" },
     { "MaxLength", v => "Constraints.maxLength("+v+")"},
     { "MinLength", v => "Constraints.minLength("+v+")" },
-    {"MatchValidation", v=> "Constraints.match('"+CamelCase(v)+"')"}
+    {"MatchValidation", v=> "Constraints.match('"+CamelCase(v)+"')"},
+    { "EmailAddress", v => "Constraints.email()" },
   };
 
   IEnumerable <Property> ValidableProperties(Class @class)
@@ -130,14 +131,24 @@
     bool HasValidatables(File file) => file.Classes.Any(c => ValidableProperties(c).Any());
     IEnumerable <Type> EnumDependencies(File file) => Dependencies(file).Where(t => t.IsEnum);
     bool HasValidatables(Class @class) => ValidableProperties(@class).Any();
-    IEnumerable <Type> ClassDependencies(File file) => Dependencies(file).Where(t => !t.IsEnum && t.name!="t");
+    IEnumerable <Type> ClassDependencies(File file) => Dependencies(file).Where(t => !t.IsEnum && t.name!="t");    
+
+    string GetTypeString(Type @type) {        
+        var rtype = @type.Name;
+        if (@type.Name == "number[]")
+            rtype = "string";
+        if (@type.IsNullable || @type.name == "string"){
+          return rtype + " | null";
+        }
+        return rtype;
+  }
 }// Auto-generated using typewriter -> from model.tst
 $HasEnumDependencies[import { $EnumDependencies[$Name][, ] } from '../enums';]
 $HasValidatables[import { Constraints } from '../../service/validator';]
 $ClassDependencies[import { $Name } from './$name';]
 $Classes(ReactNetCoreBase.Models.View.*)[export class $Name$IsGeneric[<T>] {
-$InheritedRequiredProperties[  $name: $Type;
-]$InheritedOptionalProperties[  $name?: $Type;
+$InheritedRequiredProperties[  $name: $Type[$GetTypeString];
+]$InheritedOptionalProperties[  $name?: $Type[$GetTypeString];
 ]
 $HasValidatables[
     static ValidationRules = {

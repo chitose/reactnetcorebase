@@ -193,7 +193,7 @@ export class SystemProvider extends ServerInfoConsumerComponent<SystemProviderPr
   }
 
   snack(message: React.ReactElement<any> | string | number, autoHideDuration: number, action?: string, onActionClick?: React.TouchEventHandler): void {
-    this.setState(Object.assign({}, this.state, { snackData: Object.assign(this.state.snackData, { message: message, action: action, autoHideDuration: autoHideDuration, onActionClick: onActionClick, open: true }) }));
+    this.setState(Object.assign({}, this.state, { snackData: Object.assign(this.state.snackData, { message: message, action: action, autoHideDuration: autoHideDuration || 4000, onActionClick: onActionClick, open: true }) }));
   }
 
   closeSnack() {

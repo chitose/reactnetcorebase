@@ -30,6 +30,7 @@ type DropifyTemplate = {
   errorsContainer?: (content: React.ReactElement<any>[]) => React.ReactElement<any>;
 }
 interface DropifyProps extends FormFieldProps {
+  defaultFile?: string;
   maxFileSize?: string;
   minWidth?: number;
   maxWidth?: number;
@@ -51,6 +52,7 @@ interface DropifyProps extends FormFieldProps {
 interface DropifyState extends FormFieldState {
   loaderActive: boolean;
   hovered: boolean;
+  defaultFile: string;
   loadedFileInfo: {
     name: string;
     size: number;
@@ -64,13 +66,18 @@ interface DropifyState extends FormFieldState {
 export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement> {
   className = "file-upload";
   constructor(props: DropifyProps, ctx) {
-    super(props, ctx);
+    super(props, ctx);    
   }
 
-  protected initState(): DropifyState {
+  protected initValue(): any {
+    return this.props.value || null;
+  }
+
+  protected initState(props: DropifyProps): DropifyState {
     return Object.assign(super.initState(), {
       loaderActive: false,
       hovered: false,
+      defaultFile: props.defaultFile || "",
       loadedFileInfo: {
         name: "",
         type: "",
@@ -119,16 +126,12 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
 
   removeElement = () => {
     this.state.errors = [];
-    this.state.loadedFileInfo = {
-      name: "",
-      size: 0,
-      type: "",
-      width: 0,
-      height: 0,
-      previewable: false
-    };
+    this.resetPreview();
+    this.state.defaultFile = "";
     this.state.loaderActive = false;
+    this.state.value = null;
     this.setState(this.state);
+    this.value(null);
   }
 
   onChange = () => {
@@ -144,6 +147,21 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
       width: 0,
       height: 0,
       previewable: false
+    }        
+  }
+
+  componentWillMount() {
+    if (this.mergedProps.defaultFile) {
+      let image = new Image();
+      image.src = this.mergedProps.defaultFile;
+      this.resetPreview();
+      image.onload = () => {
+        this.state.value = "";
+        this.state.loadedFileInfo.width = image.width;
+        this.state.loadedFileInfo.height = image.height;
+        this.state.loadedFileInfo.previewable = true;
+        this.setState(this.state);
+      };
     }
   }
 
@@ -203,7 +221,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
         if (this.state.errors.length === 0 && this.isImage() && file.size < this.sizeToByte(this.mergedProps.maxFileSizePreview)) {
           let reader = new FileReader();
           reader.addEventListener("load", () => {
-            this.value(reader.result.split(',')[1]);            
+            this.value(reader.result.split(',')[1]);
             let image = new Image();
             image.src = reader.result;
             image.onload = () => {
@@ -298,7 +316,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
     const imageStyle: React.CSSProperties = this.mergedProps.maxHeight > 0 ? { maxHeight: this.mergedProps.maxHeight } : {};
     return <div className="dropify-preview">
       <span className="dropify-render">
-        {this.state.loadedFileInfo.previewable ? <img src={`data:${this.state.loadedFileInfo.type};base64,${this.state.value}`} style={imageStyle} />
+        {this.state.loadedFileInfo.previewable ? <img src={this.state.defaultFile ? this.state.defaultFile : `data:${this.state.loadedFileInfo.type};base64,${this.state.value}`} style={imageStyle} />
           : <span>
             <i className="dropify-font-file" /><span className="dropify-extension">{this.getFileType()}</span>
           </span>}
@@ -313,7 +331,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
   }
 
   renderChild() {
-    return <div className={"dropify-wrapper" + (this.state.errors.length > 0 ? " has-error " : (this.state.loadedFileInfo.name ? " has-preview " : ""))}>
+    return <div className={"dropify-wrapper" + (this.state.errors.length > 0 ? " has-error " : (this.state.loadedFileInfo.name || this.state.defaultFile ? " has-preview " : ""))}>
       <div className="dropify-message">
         <span className="file-icon" />
         <p>{this.i18n.t(this.mergedProps.messages.default)}</p>

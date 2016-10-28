@@ -12,6 +12,8 @@ export class LoginResponse {
   lastName: string | null;
   email: string | null;
   phone: string | null;
+  rowVersion: string;
+  hasImage: boolean;
 
 
 
@@ -25,5 +27,7 @@ export class LoginResponse {
        lastName : 'lastName',
        email : 'email',
        phone : 'phone',
+       rowVersion : 'rowVersion',
+       hasImage : 'hasImage',
    };
 }

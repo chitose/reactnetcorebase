@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReactNetCoreBase.Infrastructure.Attributes;
 using ReactNetCoreBase.Models.Enum;
 
 namespace ReactNetCoreBase.Models.View
@@ -16,6 +17,9 @@ namespace ReactNetCoreBase.Models.View
     public string FirstName {get;set;}
     public string LastName {get;set;}
     public string Email {get;set;}
-    public string Phone {get;set;}     
+    public string Phone {get;set;}
+    [BinaryImage]
+    public byte[] RowVersion { get; set; }
+    public bool HasImage { get; set; }
   }
 }

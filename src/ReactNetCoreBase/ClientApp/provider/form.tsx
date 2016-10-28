@@ -22,7 +22,8 @@ interface FormProps extends ReactRouter.RouteComponentProps<any,any> {
   headerContent?: JSX.Element | JSX.Element[];
   className?: string;
   rules?: Dictionary<Validator | Validator[]>;
-  showValidationSummary?: boolean; 
+  showValidationSummary?: boolean;
+  saveOkMessage?:string; 
 }
 
 interface FormState {
@@ -96,7 +97,7 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
       this.props.onModelChanged(this.model);
     }
 
-    this.state.valid = Object.keys(this.validationError).map(k => this.validationError[k].length > 0).length === 0;
+    this.state.valid = Object.keys(this.validationError).map(k => this.validationError[k].length > 0).filter(x => x).length === 0;
     this.state.validationChanged = true;
     this.state.dirty = true;
     this.setState(this.state);
@@ -208,6 +209,7 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
         this.serverError = this.i18n.t(sr.errorMessage, sr.errorOptions);
       } else {
         this.state.dirty = false;
+        this.system.snack(this.i18n.t(this.props.saveOkMessage || "common:message.save_ok"));
       };
     } finally {
       this.state.submitting = false;
@@ -253,7 +255,7 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
         {this.props.children}
       </div>
       <div className="form form-footer">
-        <RaisedButton label={this.i18n.t(this.props.saveLabel || "common:button.save")} primary={true} type="submit"/>
+        <RaisedButton label={this.i18n.t(this.props.saveLabel || "common:button.save")} primary={true} type="submit" disabled={!this.state.dirty || !this.state.valid || this.state.submitting}/>
         {this.props.onCancel ? <RaisedButton label={this.i18n.t(this.props.cancelLabel || "common:button.cancel")} type="button" onTouchTap={this.props.onCancel}/> : null}
         {this.props.footerAction}
       </div>

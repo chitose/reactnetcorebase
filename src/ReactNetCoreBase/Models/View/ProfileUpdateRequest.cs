@@ -27,7 +27,7 @@ namespace ReactNetCoreBase.Models.View {
     public string Phone { get; set; }
 
     [MaxLength(256)]
-    [EmailAddress]
+    [NullableEmailValidation]
     public string Email { get; set; }
 
     [BinaryImage]

@@ -63,7 +63,7 @@ namespace ReactNetCoreBase.Infrastructure.Attributes
       {
         if (!response.IsBusinessError && !(ex is SecurityException) && _env.IsDevelopment())
         {
-          response.ErrorDetails = ex.StackTrace;
+          response.ErrorDetails = ex.ToString();
         }
         context.Result = new ObjectResult(response);
       }

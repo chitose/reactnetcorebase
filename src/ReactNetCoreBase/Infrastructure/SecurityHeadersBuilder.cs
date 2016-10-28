@@ -9,7 +9,8 @@
       AddCustomHeader("X-Frame-Options", "deny");
       AddCustomHeader("X-XSS-Protection", "1; mode=block");
       
-      RemoveHeader("X-Powered-By");
+      //RemoveHeader("X-Powered-By");
+      // remove by web.config
       return this;
     }
 

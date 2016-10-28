@@ -17,7 +17,8 @@
     "concurrency_exception": "Concurrency violation.",
     "runtime_exception": "Runtime exception occured.",
     "long_waiting": "Please wait while we are working on it...",
-    "un_saved_change_message": "You have un-saved changes in the form. Do you really want to leave?"
+    "un_saved_change_message": "You have un-saved changes in the form. Do you really want to leave?",
+    "save_ok": "Save successfully"
   },
   "button": {
     "no": "No",

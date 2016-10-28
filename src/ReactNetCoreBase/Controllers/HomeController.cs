@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Data.Entity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -34,21 +35,11 @@ namespace ReactNetCoreBase.Controllers
       LoginResponse profile = null;
       if (User.Identity.IsAuthenticated)
       {
-        var user = db.Users.Find(User.GetId());
-        if (user != null)
-        {
-          profile = new LoginResponse {
-            Id = user.Id,
-            Rights = User.Claims.Where(c => c.Type == Claims.Right).Select(c => (Right)int.Parse(c.Value)),
-            CsrfToken = User.FindFirst(Claims.SecurityToken).Value,
-            UserName = user.UserName,
-            DisplayName = user.DisplayName,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            Phone = user.Phone
-          };
-        }
+        var userId = User.GetId();
+        var user = db.Users.AsNoTracking()
+          .Include(x => x.Role.Rights)
+          .FirstOrDefault(x => x.Id == userId);
+        profile = BaseApiController.GetLoginResponse(user);
       }
 
       var languages = Request.Headers["Accept-Language"].FirstOrDefault();

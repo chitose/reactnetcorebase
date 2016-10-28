@@ -80,6 +80,7 @@
     { "MinLength", v => "Constraints.minLength("+v+")" },
     {"MatchValidation", v=> "Constraints.match('"+CamelCase(v)+"')"},
     { "EmailAddress", v => "Constraints.email()" },
+    { "NullableEmailValidation", v => "Constraints.email()" }
   };
 
   IEnumerable <Property> ValidableProperties(Class @class)

@@ -21,17 +21,14 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
       phone: this.serverInfo.info.profile.phone || "",
       password: "",
       passwordMatch: "",
-      image:""
+      image: ""
     };
   }
 
   async submit(model: ProfileUpdateRequest) {
     const resp = await userSvc.updateProfile(this.httpClient, model);
     if (!resp.isBusinessError) {
-      this.serverInfo.info.profile.firstName = model.firstName;
-      this.serverInfo.info.profile.lastName = model.lastName;
-      this.serverInfo.info.profile.email = model.email;
-      this.serverInfo.info.profile.phone = model.phone;
+      this.serverInfo.info.profile = resp.data;
       this.serverInfo.updateServerInfo(this.serverInfo.info);
     }
     return resp;
@@ -41,7 +38,7 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
     return (
       <PageTitle title={this.i18n.t("security:profile.title")}>
         <div className="row center-xs">
-          <div className="col-xs-6">
+          <div className="col-sm-12 col-md-9 col-lg-6">
             <Paper zDepth={1} className="paper">
               <Form onSubmit={this.submit.bind(this)}
                 unSavedConfirm={this.props.route}
@@ -49,25 +46,26 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
                 name="profile" title="security:profile.title"
                 rules={ProfileUpdateRequest.ValidationRules}>
                 <div className="row">
-                  <div className="col-xs-9">
+                  <div className="col-xs-12 col-sm-9">
                     <FormTextField value={this.state.firstName} name={ProfileUpdateRequest.ColumnNames.firstName} autoFocus={true} label={this.i18n.t("security:profile.label.first_name")} />
                   </div>
-                  <div className="col-xs-3">
-                    <Dropify name={ProfileUpdateRequest.ColumnNames.image} showInfo={false} allowedFormats={["portrait"]} />
+                  <div className="col-xs-12 col-sm-3">
+                    <Dropify name={ProfileUpdateRequest.ColumnNames.image} showInfo={false} allowedFormats={["portrait"]}
+                      defaultFile={this.serverInfo.info.profile.hasImage ? userSvc.userImage(this.serverInfo.info.profile.id, this.serverInfo.info.profile.rowVersion) : ''} />
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-xs-9">
+                  <div className="col-xs-12 col-sm-9">
                     <FormTextField value={this.state.lastName} name={ProfileUpdateRequest.ColumnNames.lastName} label={this.i18n.t("security:profile.label.last_name")} />
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-xs-9">
+                  <div className="col-xs-12 col-sm-9">
                     <FormTextField value={this.state.phone} name={ProfileUpdateRequest.ColumnNames.phone} label={this.i18n.t("security:profile.label.phone")} />
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-xs-9">
+                  <div className="col-xs-12 col-sm-9">
                     <FormTextField value={this.state.email} name={ProfileUpdateRequest.ColumnNames.email} label={this.i18n.t("security:profile.label.email")} />
                   </div>
                 </div>

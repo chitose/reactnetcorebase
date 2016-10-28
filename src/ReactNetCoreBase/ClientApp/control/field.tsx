@@ -34,7 +34,7 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
 
   constructor(props: P, ctx) {
     super(props, ctx);
-    this.state = this.initState();
+    this.state = this.initState(props);
   }
 
   componentWillMount() {
@@ -72,7 +72,7 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
     }
   }
 
-  protected initState(): S {
+  protected initState(props?:P): S {
     return {
       value: this.initValue(),
       isDirty: false,

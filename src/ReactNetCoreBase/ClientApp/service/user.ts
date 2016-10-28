@@ -3,18 +3,19 @@
 import {ApiResponse} from '../model/view/apiResponse';
 import {HttpClientAPI} from '../provider/httpClient';
 
+import {LoginResponse} from '../model/view/loginResponse';
 import {ProfileUpdateRequest} from '../model/view/profileUpdateRequest';
 
+import { Right } from '../model/enums';
 
-
-export function userImage(id: number) {
-  return `/api/user/userImage${id}`;
+export function userImage(id: number,ver:string) {
+  return `/api/user/userImage${id}?v=${ver}`;
 }
-export function userThumb(id: number) {
-  return `/api/user/userThumb${id}`;
+export function userThumb(id: number,ver:string) {
+  return `/api/user/userThumb${id}?v=${ver}`;
 }
 
 export function updateProfile(api: HttpClientAPI,request: ProfileUpdateRequest) {
-  return api.http<ApiResponse<ProfileUpdateRequest>>(`/api/user/updateProfile`, { method: 'post' , body: JSON.stringify(request) });
+  return api.http<ApiResponse<LoginResponse>>(`/api/user/updateProfile`, { method: 'post' , body: JSON.stringify(request) });
 }
 

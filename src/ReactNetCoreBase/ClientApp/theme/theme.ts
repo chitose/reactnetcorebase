@@ -1,12 +1,15 @@
 ﻿import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { white } from 'material-ui/styles/colors';
+
 export interface Theme extends __MaterialUI.Styles.MuiTheme {
 }
 
 let theme = getMuiTheme(lightBaseTheme) as Theme;
 
 // customization
+
+theme.snackbar.backgroundColor = theme.appBar.color;
 
 theme.spacing = {
   iconSize: 24,

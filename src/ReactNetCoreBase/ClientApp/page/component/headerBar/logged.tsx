@@ -1,9 +1,9 @@
 ﻿import * as React from 'react';
 
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+import Popover from 'material-ui/Popover';
 import MenuItem from 'material-ui/MenuItem';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Menu from 'material-ui/Menu';
 import Avatar from 'material-ui/Avatar';
 
 import { BaseComponent } from '../../../provider';
@@ -12,9 +12,35 @@ import { RoutePaths } from '../../../routes';
 import { browserHistory } from 'react-router';
 import * as userSvc from '../../../service/user';
 
-export class Logged extends BaseComponent<any, void> {
-  static muiName = "IconMenu";
+interface LoggedState {
+  open: boolean;
+  anchorEl: any;
+}
+
+export class Logged extends BaseComponent<any, LoggedState> {
+  static muiName = "FlatButton";
+  state = {
+    open: false,
+    anchorEl: null
+  }
+
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.state.open = false;
+    this.setState(this.state);
+  };
+
   async signout() {
+    this.handleRequestClose();
     await authSvc.signout(this.httpClient);
     let info = this.serverInfo.info;
     info.profile = null;
@@ -23,14 +49,20 @@ export class Logged extends BaseComponent<any, void> {
   }
 
   render() {
-    return <IconMenu {...this.props} iconButtonElement={
-      <IconButton><Avatar size={24} src={userSvc.userThumb(this.serverInfo.info.profile.id)}/></IconButton>
-    }
-      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-      <MenuItem primaryText={this.i18n.t("common:app_bar.personal_menu.sign_out")} onTouchTap={this.signout.bind(this)} />
-      <MenuItem primaryText={this.i18n.t("common:app_bar.personal_menu.profile")} onTouchTap={() => { browserHistory.push(RoutePaths.profile) } } />
-    </IconMenu>
+    return <div>
+      <FlatButton {...this.props} onTouchTap={this.handleTouchTap} labelPosition="before" label={this.serverInfo.info.profile.displayName} icon={<Avatar size={35} src={userSvc.userThumb(this.serverInfo.info.profile.id, this.serverInfo.info.profile.rowVersion)} />} />
+      <Popover
+        open={this.state.open}
+        anchorEl={this.state.anchorEl}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+        onRequestClose={this.handleRequestClose}
+        >
+        <Menu>
+          <MenuItem primaryText={this.i18n.t("common:app_bar.personal_menu.sign_out")} onTouchTap={this.signout.bind(this)} />
+          <MenuItem primaryText={this.i18n.t("common:app_bar.personal_menu.profile")} onTouchTap={() => { this.handleRequestClose(); browserHistory.push(RoutePaths.profile) } } />
+        </Menu>
+      </Popover>
+    </div>;
   }
 }

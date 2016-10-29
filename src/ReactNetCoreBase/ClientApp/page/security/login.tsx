@@ -19,7 +19,7 @@ export class LoginPage extends BaseComponent<RouteComponentProps<{ rurl: string 
       let info = this.serverInfo.info;
       info.profile = resp.data;
       this.serverInfo.updateServerInfo(info);
-      browserHistory.push(this.props.location.state["nextPathname"] || RoutePaths.root);
+      browserHistory.push(this.props.location.state ? this.props.location.state["nextPathname"] || RoutePaths.root: RoutePaths.root);
     }
     return resp;
   }
@@ -30,10 +30,12 @@ export class LoginPage extends BaseComponent<RouteComponentProps<{ rurl: string 
         <div className="row center-xs">
           <div className="col-xs-3">
             <Paper zDepth={1} className="paper">
-              <Form onSubmit={this.submit.bind(this)} name="login" title="security:login.title" saveLabel="security:button.login"
+              <Form onSubmit={this.submit.bind(this)} name="login" title="security:login.title"
+                saveLabel="security:button.login"
+                disableSavedNotify={true}
                 rules={LoginRequest.ValidationRules}>
-                <FormTextField name={LoginRequest.ColumnNames.userName} autoFocus={true} label={this.i18n.t("security:login.label.user_name")}/>
-                <FormTextField name={LoginRequest.ColumnNames.password} label={this.i18n.t("security:login.label.password")} type="password"/>
+                <FormTextField name={LoginRequest.ColumnNames.userName} autoFocus={true} label={this.i18n.t("security:login.label.user_name")} />
+                <FormTextField name={LoginRequest.ColumnNames.password} label={this.i18n.t("security:login.label.password")} type="password" />
               </Form>
             </Paper>
           </div>

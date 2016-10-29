@@ -151,6 +151,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
   }
 
   componentWillMount() {
+    super.componentWillMount();
     if (this.mergedProps.defaultFile) {
       let image = new Image();
       image.src = this.mergedProps.defaultFile;

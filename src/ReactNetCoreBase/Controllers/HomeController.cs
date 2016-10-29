@@ -14,6 +14,7 @@ using ReactNetCoreBase.Infrastructure.Attributes;
 using ReactNetCoreBase.Infrastructure.Security;
 using ReactNetCoreBase.Models.Enum;
 using ReactNetCoreBase.Models.View;
+using AutoMapper;
 
 namespace ReactNetCoreBase.Controllers
 {
@@ -23,11 +24,13 @@ namespace ReactNetCoreBase.Controllers
     private readonly ApplicationDbContext db;
     private readonly IHostingEnvironment env;
     private readonly Settings settings;
-    public HomeController(ApplicationDbContext db, IOptions<Settings> settings, IHostingEnvironment env)
+    private readonly IMapper mapper;
+    public HomeController(ApplicationDbContext db, IOptions<Settings> settings, IHostingEnvironment env, IMapper mapper)
     {
       this.db = db;
       this.settings = settings.Value;
       this.env = env;
+      this.mapper = mapper;
     }
         
     public IActionResult Index()
@@ -39,7 +42,7 @@ namespace ReactNetCoreBase.Controllers
         var user = db.Users.AsNoTracking()
           .Include(x => x.Role.Rights)
           .FirstOrDefault(x => x.Id == userId);
-        profile = BaseApiController.GetLoginResponse(user);
+        profile = mapper.Map<LoginResponse>(user);
       }
 
       var languages = Request.Headers["Accept-Language"].FirstOrDefault();

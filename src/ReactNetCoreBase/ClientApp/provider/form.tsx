@@ -24,6 +24,7 @@ interface FormProps extends ReactRouter.RouteComponentProps<any,any> {
   rules?: Dictionary<Validator | Validator[]>;
   showValidationSummary?: boolean;
   saveOkMessage?:string; 
+  disableSavedNotify?:boolean;
 }
 
 interface FormState {
@@ -85,22 +86,22 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
     }
   }
 
-  updateValueAndValidility(field: FormFieldApi) {
-    this.model[field.props.name] = field.value();
-
-    this.validationError[field.props.name] = this.validateField(field);
-    field.updateStatus(this.validationError[field.props.name]);
-
-    console.log(`Form ${this.props.name} model changed`);
-    console.log(this.model);
+  updateValueAndValidility(field: FormFieldApi) {    
+    this.getFormModel();
+    this.validateField(field);
+    field.updateStatus(this.validationError[field.props.name]);    
     if (this.props.onModelChanged) {
       this.props.onModelChanged(this.model);
     }
 
-    this.state.valid = Object.keys(this.validationError).map(k => this.validationError[k].length > 0).filter(x => x).length === 0;
+    this.updateFormValidState();
     this.state.validationChanged = true;
     this.state.dirty = true;
     this.setState(this.state);
+  }
+
+  updateFormValidState(){
+    this.state.valid = Object.keys(this.validationError).map(k => this.validationError[k].length > 0).filter(x => x).length === 0;
   }
 
   detachFromForm(field: FormFieldApi) {
@@ -140,24 +141,20 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
           });          
         }        
         field.updateStatus(fr, onSubmit);
-        return fr;
+        this.validationError[field.props.name] = fr;
       }
     }
 
-    return [];
+    this.validationError[field.props.name] = [];
   }
 
   validate(): Dictionary<string[]> {
     this.validationError = {};
     for (let name in this.fields) {
-      let field = this.fields[name];
-      const fr = this.validateField(field, true);
-      if (fr.length > 0) {
-        this.validationError[name] = fr;
-      }
+      this.validateField(this.fields[name], true);      
     }
-
-    return this.validationError;
+    this.updateFormValidState();  
+    return this.validationError;  
   }
 
   getField(name: string): FormFieldApi {
@@ -183,13 +180,15 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
     this.setState(this.state);
   }
 
-  submit() {
+  getFormModel(){
     Object.keys(this.fields).forEach(k => {
       this.model[k] = this.fields[k].value();
     });
+  }
 
-    this.validate();
-    this.state.valid = Object.keys(this.validationError).length === 0;
+  submit() {
+    this.getFormModel();
+    this.validate();    
     this.state.submitted = false;
     if (this.state.valid) {
       this.state.submitting = true;
@@ -209,7 +208,8 @@ export class Form extends BaseComponent<FormProps, FormState> implements FormApi
         this.serverError = this.i18n.t(sr.errorMessage, sr.errorOptions);
       } else {
         this.state.dirty = false;
-        this.system.snack(this.i18n.t(this.props.saveOkMessage || "common:message.save_ok"));
+        if (!this.props.disableSavedNotify)
+          this.system.snack(this.i18n.t(this.props.saveOkMessage || "common:message.save_ok"));
       };
     } finally {
       this.state.submitting = false;

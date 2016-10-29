@@ -141,11 +141,11 @@ $ViewClassDependencies[import {$Name} from '../model/view/$name';
 ]
 $HasEnumDependencies[import { $EnumDependencies[$Name][, ] } from '../model/enums';]
 
-$Methods(m => m.HttpMethod() == "get" && m.Attributes.Any(a => a.Name == "FileResponseAction"))[$HasParameter[export function $name($Parameters(p => !p.Attributes.Any(a => a.Name == "FromServices" && a.Name == "FromBody"))[$name: $ParamType][, ],ver:string) {
+$Methods(m => m.HttpMethod() == "get" && m.Attributes.Any(a => a.Name == "FileResponseAction"))[$HasParameter[export function $name($Parameters(p => p.Type.Name != "CancellationToken" && !p.Attributes.Any(a => a.Name == "FromServices" && a.Name == "FromBody"))[$name: $ParamType][, ],ver:string) {
   return `$UrlCore?v=${ver}`;
 }
 ]]
-$Methods(m => !m.Attributes.Any(a => a.Name == "FileResponseAction"))[$HasParameter[export function $name(api: HttpClientAPI,$Parameters(p => !p.Attributes.Any(a => a.Name == "FromServices"))[$name: $ParamType][, ]) {
+$Methods(m => !m.Attributes.Any(a => a.Name == "FileResponseAction"))[$HasParameter[export function $name(api: HttpClientAPI,$Parameters(p => p.Type.Name != "CancellationToken" && !p.Attributes.Any(a => a.Name == "FromServices"))[$name: $ParamType][, ]) {
   return api.http<ApiResponse<$ReturnType>>(`$UrlCore`, { method: '$HttpMethod' $JsonBody });
 }]
 

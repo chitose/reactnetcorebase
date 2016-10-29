@@ -9,11 +9,16 @@ using ReactNetCoreBase.Infrastructure.Attributes;
 using ReactNetCoreBase.Infrastructure.Security;
 using ReactNetCoreBase.Models.View;
 using ReactNetCoreBase.Util;
+using AutoMapper;
+using ReactNetCoreBase.Models.Db;
+using Microsoft.AspNetCore.Identity;
+using System.Threading;
+using ReactNetCoreBase.Data.Identity;
 
 namespace ReactNetCoreBase.Controllers {
   [Route("api/[controller]")]
   public class UserController : BaseApiController {
-    public UserController(ApplicationDbContext db) : base(db) {
+    public UserController(ApplicationDbContext db, IMapper mapper) : base(db, mapper) {
     }
 
     [FileResponseAction]
@@ -31,19 +36,20 @@ namespace ReactNetCoreBase.Controllers {
     }
 
     [HttpPost("updateProfile")]
-    public LoginResponse UpdateProfile([FromBody]ProfileUpdateRequest request) {
+    public async Task<LoginResponse> UpdateProfile([FromBody]ProfileUpdateRequest request, CancellationToken cancellationToken) {
       var userId = User.GetId();
       var dbUser = db.Users
       .Include(x => x.Role.Rights)
       .FirstOrDefault(u => u.Id == userId);
-      dbUser.FirstName = request.FirstName;
-      dbUser.LastName = request.LastName;
-      dbUser.Email = request.Email;
-      dbUser.Phone = request.Phone;
-      if (request.Image == null || request.Image.Length>0)
-        dbUser.Image = request.Image;
-      db.SaveChanges();
-      return GetLoginResponse(dbUser);
+      var role = dbUser.Role;
+      mapper.Map(request, dbUser);
+      await db.SaveChangesAsync(cancellationToken);
+      if (!string.IsNullOrEmpty(request.Password)) {
+        //var passwordHash = await manager.GetPasswordHashAsync(dbUser, cancellationToken);
+        //await manager.SetPasswordHashAsync(dbUser, passwordHash, cancellationToken);
+      }
+      dbUser.Role = role;
+      return mapper.Map<LoginResponse>(dbUser);
     }
   }
 }

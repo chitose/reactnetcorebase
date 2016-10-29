@@ -60,9 +60,7 @@ export abstract class Field<P extends FormFieldProps, S extends FormFieldState, 
   value(val?: any) {
     if (val !== undefined) {
       this.state.value = val;
-      this.state.isDirty = true;
-      console.log(`Field ${this.props.name} value changed`);
-      console.log(val);
+      this.state.isDirty = true;      
       this.setState(this.state, () => {
         this.form.updateValueAndValidility(this);
       });

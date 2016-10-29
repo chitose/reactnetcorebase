@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,7 @@ using ReactNetCoreBase.Infrastructure;
 using ReactNetCoreBase.Infrastructure.Attributes;
 using ReactNetCoreBase.Infrastructure.Security;
 using ReactNetCoreBase.Models.Db;
+using ReactNetCoreBase.Models.Map;
 
 namespace ReactNetCoreBase
 {
@@ -28,6 +30,7 @@ namespace ReactNetCoreBase
   {
     private static Settings settings = new Settings();
     private static IHostingEnvironment s_env;
+    private static MapperConfiguration s_mapConfiguration;
     public Startup(IHostingEnvironment env)
     {
       s_env = env;
@@ -54,6 +57,10 @@ namespace ReactNetCoreBase
       AppDbConfig.ConnectionString = Configuration["ConnectionStrings:DefaultConnection"];
 
       Loggers.Default.Info($"Data connection: {AppDbConfig.ConnectionString}");
+
+      s_mapConfiguration = new MapperConfiguration(cfg => {
+        cfg.AddProfile<MapConfigurationProfile>();
+      });
     }
 
     public IConfigurationRoot Configuration { get; }
@@ -90,6 +97,8 @@ namespace ReactNetCoreBase
         options.Filters.Add(new ResultWrapperFilter());
         options.Filters.Add(new ExceptionFilter(s_env));
       });
+
+      services.AddSingleton(sp => s_mapConfiguration.CreateMapper());
 
       // node service for server-side rendering
       //services.AddNodeServices();

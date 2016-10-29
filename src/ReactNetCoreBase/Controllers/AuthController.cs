@@ -9,11 +9,12 @@ using ReactNetCoreBase.Data;
 using ReactNetCoreBase.Models.Db;
 using ReactNetCoreBase.Models.View;
 using ReactNetCoreBase.Infrastructure;
+using AutoMapper;
 
 namespace ReactNetCoreBase.Controllers {
   [Route("api/[controller]")]
   public class AuthController : BaseApiController {
-    public AuthController(ApplicationDbContext db) : base(db) {
+    public AuthController(ApplicationDbContext db, IMapper mapper) : base(db, mapper) {
     }
 
     public async Task<LoginResponse> Login([FromBody]LoginRequest request, [FromServices]SignInManager<User> signInManager) {
@@ -31,7 +32,7 @@ namespace ReactNetCoreBase.Controllers {
         throw new BusinessException("security:message.invalid");
       }
       Loggers.Authentication.Info($"Login: User {request.UserName} logged in successfully.");
-      return GetLoginResponse(user);
+      return mapper.Map<LoginResponse>(user);
     }
 
     [HttpPost("signout")]

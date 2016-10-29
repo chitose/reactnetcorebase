@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var extractCSS = new ExtractTextPlugin('site.css', { allChunks: true });
 var isDevelopment = process.env.NODE_ENV === 'development';
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
   resolve: {
@@ -19,7 +20,7 @@ module.exports = {
         { test: /\.ts(x?)$/, include: /ClientApp/, loader: 'ts-loader?silent=true' },
         { test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=.*)?$/, loader: 'url-loader?limit=10000' },
         { test: /\.jpg$/, loader: "file-loader" },
-        { test: /(\.less|\.css)$/, loader: ExtractTextPlugin.extract('style', 'css!less') }
+        { test: /(\.less|\.css)$/, loader: ExtractTextPlugin.extract('style', 'css!less!postcss-loader') }
     ]
   },
   entry: {
@@ -30,6 +31,7 @@ module.exports = {
     filename: '[name].js',
     publicPath: '/dist/'
   },
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
   plugins: [
       new webpack.DefinePlugin({
         'process.env': {

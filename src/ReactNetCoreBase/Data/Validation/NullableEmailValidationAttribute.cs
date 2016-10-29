@@ -10,8 +10,8 @@ namespace ReactNetCoreBase.Data.Validation {
 
     }
     protected override ValidationResult IsValid(object value, ValidationContext context) {
-      return !string.IsNullOrEmpty(value?.ToString()) && new EmailAddressAttribute().IsValid(value)
-      ? new ValidationResult(FormatErrorMessage(context.DisplayName)) : ValidationResult.Success;
+      return string.IsNullOrEmpty(value?.ToString()) || new EmailAddressAttribute().IsValid(value)
+      ? ValidationResult.Success : new ValidationResult(FormatErrorMessage(context.DisplayName));
     }
 
     public override string FormatErrorMessage(string name) => string.Format(ErrorMessageString, name);

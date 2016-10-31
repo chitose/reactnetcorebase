@@ -9,7 +9,7 @@ export class EmailValidator extends Validator {
     }
 
     isValid(field: FormFieldApi): string | null {
-        const value = field.value();
+        const value = field.value<string>();
         return !value || /^\s*$/.test(value) || ValidatorLib.isEmail(value) ? null :
             i18n.t("validation:email", {
                 field: field.props.label

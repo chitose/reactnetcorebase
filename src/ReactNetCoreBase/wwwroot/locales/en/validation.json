@@ -5,5 +5,10 @@
   "max_length": "The {{field}} length must not exceed {{count}} character",
   "max_length_plural": "The {{field}} length must not exceed {{count}} characters",
   "match": "The {{field}} does not match {{target}}",
-  "email": "The {{field}}'s value is not email address"
+  "email": "The {{field}}'s value is not email address",
+  "password_required_length": "Password minimum length is {{value}}",
+  "password_required_digit": "Password must contain digit",
+  "password_required_lowercase": "Password must contain lowercase character",
+  "password_required_uppercase": "Password must contain uppercase character",
+  "password_required_non_alphanumeric": "Password must contain non-alphanumeric character"
 }

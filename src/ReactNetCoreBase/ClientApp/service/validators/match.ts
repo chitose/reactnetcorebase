@@ -9,7 +9,7 @@ export class MatchValidator extends Validator {
     }
 
     isValid(field: FormFieldApi): string | null {
-        const value = field.value();
+        const value = field.value<string>();
         const targetField = field.form.getField(this.target);
         return value === targetField.value() ? null :
             i18n.t("validation:match", {

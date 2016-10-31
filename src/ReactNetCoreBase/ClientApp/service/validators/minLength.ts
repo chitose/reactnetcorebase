@@ -8,7 +8,7 @@ export class MinLengthValidator extends Validator {
   }
 
   isValid(field: FormFieldApi): string | null {
-    const value = field.value();
+    const value = field.value<string>();
     return value && value.length >= this.minLength ? null :
       i18n.t("validation:min_length", {
         field: field.props.label,

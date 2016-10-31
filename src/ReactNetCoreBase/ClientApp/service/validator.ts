@@ -1,10 +1,15 @@
-﻿import { EmailValidator } from './validators/email';
+﻿import { PasswordValidator } from './validators/password';
+import { EmailValidator } from './validators/email';
 import { MatchValidator } from './validators/match';
 import { MaxLengthValidator } from './validators/maxLength';
 import { MinLengthValidator } from './validators/minLength';
 import { RequiredValidator } from './validators/required';
 
 export * from "./validators/validator";
+
+import { ServerInfo } from '../common';
+
+const serverInfo = window["serverInfos"] as ServerInfo;
 
 export class Constraints {
   static required() {
@@ -25,5 +30,9 @@ export class Constraints {
 
   static email() {
     return new EmailValidator();
+  }
+
+  static password() {
+    return new PasswordValidator(serverInfo.settings);
   }
 }

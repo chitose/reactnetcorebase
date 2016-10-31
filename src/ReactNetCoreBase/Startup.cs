@@ -28,7 +28,7 @@ namespace ReactNetCoreBase
 {
   public class Startup
   {
-    private static Settings settings = new Settings();
+    internal static Settings settings = new Settings();
     private static IHostingEnvironment s_env;
     private static MapperConfiguration s_mapConfiguration;
     public Startup(IHostingEnvironment env)

@@ -15,7 +15,7 @@ export class ProfileUpdateRequest {
     static ValidationRules = {
        firstName: [Constraints.required(), Constraints.maxLength(100)],
        lastName: [Constraints.required(), Constraints.maxLength(100)],
-       password: Constraints.match('passwordMatch'),
+       password: [Constraints.match('passwordMatch'), Constraints.password()],
        passwordMatch: Constraints.match('password'),
        phone: Constraints.maxLength(30),
        email: [Constraints.maxLength(256), Constraints.email()]

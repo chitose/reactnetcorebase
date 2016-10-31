@@ -36,7 +36,7 @@ namespace ReactNetCoreBase.Controllers {
     }
 
     [HttpPost("updateProfile")]
-    public async Task<LoginResponse> UpdateProfile([FromBody]ProfileUpdateRequest request, CancellationToken cancellationToken) {
+    public async Task<LoginResponse> UpdateProfile([FromBody]ProfileUpdateRequest request,[FromServices] UserManager<User> userManager, CancellationToken cancellationToken) {
       var userId = User.GetId();
       var dbUser = db.Users
       .Include(x => x.Role.Rights)
@@ -45,8 +45,7 @@ namespace ReactNetCoreBase.Controllers {
       mapper.Map(request, dbUser);
       await db.SaveChangesAsync(cancellationToken);
       if (!string.IsNullOrEmpty(request.Password)) {
-        //var passwordHash = await manager.GetPasswordHashAsync(dbUser, cancellationToken);
-        //await manager.SetPasswordHashAsync(dbUser, passwordHash, cancellationToken);
+        //await userManager.ChangePasswordAsync(dbUser, request.pass)
       }
       dbUser.Role = role;
       return mapper.Map<LoginResponse>(dbUser);

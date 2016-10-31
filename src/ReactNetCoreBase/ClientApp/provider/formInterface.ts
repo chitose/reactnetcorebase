@@ -20,7 +20,7 @@ export interface FormFieldApi {
   updateStatus(errors: string[], onSubmit?: boolean, cb?: () => void): void;
   props: FormFieldProps;
   state: FormFieldState;
-  value(val?: any): any;
+  value<T>(val?: T): T;
   form: FormApi;
   reset(): void;
   focus(): void;  

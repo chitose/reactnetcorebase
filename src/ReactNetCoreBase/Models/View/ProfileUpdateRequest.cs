@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using ReactNetCoreBase.Data.Validation;
 using ReactNetCoreBase.Infrastructure.Attributes;
 
@@ -18,6 +14,7 @@ namespace ReactNetCoreBase.Models.View {
     public string LastName { get; set; }
 
     [MatchValidation(nameof(PasswordMatch))]
+    [Password]
     public string Password { get; set; }
 
     [MatchValidation(nameof(Password))]

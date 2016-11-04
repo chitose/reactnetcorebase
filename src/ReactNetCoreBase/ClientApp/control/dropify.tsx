@@ -136,7 +136,7 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
 
   onChange = () => {
     this.resetPreview();
-    this.readFile();
+    this.readFile(this.childControl.files[0]);
   }
 
   resetPreview() {
@@ -148,6 +148,22 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
       height: 0,
       previewable: false
     }        
+  }
+
+  fileDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  fileDrop(e: DragEvent) {
+    this.fileDragOver(e);
+    // fetch FileList object
+    var files = e.dataTransfer.files;
+
+    // process all File objects
+    if (files && files.length === 1) {
+      this.readFile(files[0]);
+    }
   }
 
   componentWillMount() {
@@ -197,9 +213,8 @@ export class Dropify extends Field<DropifyProps, DropifyState, HTMLInputElement>
     }
   }
 
-  readFile() {
-    if (this.childControl.files && this.childControl.files[0]) {
-      let file = this.childControl.files[0];
+  readFile(file: File) {
+    if (file) {      
       this.state.isDirty = true;
       this.state.isTouched = true;
       this.state.errors = [];

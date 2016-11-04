@@ -13,12 +13,14 @@ namespace ReactNetCoreBase.Models.View {
     [MaxLength(100)]
     public string LastName { get; set; }
 
-    [MatchValidation(nameof(PasswordMatch))]
-    [Password]
     public string Password { get; set; }
 
-    [MatchValidation(nameof(Password))]
-    public string PasswordMatch { get; set; }
+    [MatchValidation(nameof(NewPasswordMatch))]
+    [Password]
+    public string NewPassword { get; set; }
+
+    [MatchValidation(nameof(NewPassword))]
+    public string NewPasswordMatch { get; set; }
 
     [MaxLength(30)]
     public string Phone { get; set; }

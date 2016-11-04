@@ -552,7 +552,7 @@ declare namespace __MaterialUI {
     disableFocusRipple?: boolean;
     errorStyle?: React.CSSProperties;
     errorText?: React.ReactNode;
-    filter?: (searchText: string, key: string, item: AutoCompleteDataItem) => boolean;
+    filter?: (searchText: string, key: string) => boolean;
     floatingLabelText?: string;
     fullWidth?: boolean;
     hintText?: string;

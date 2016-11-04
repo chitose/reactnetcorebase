@@ -1,5 +1,6 @@
 ﻿{
   "app_title": "React-Netcore Base",
+  "page_not_found_title":"Page not found",
   "dialog": {
     "title": {
       "request_failure": "Request error",
@@ -18,7 +19,8 @@
     "runtime_exception": "Runtime exception occured.",
     "long_waiting": "Please wait while we are working on it...",
     "un_saved_change_message": "You have un-saved changes in the form. Do you really want to leave?",
-    "save_ok": "Save successfully"
+    "save_ok": "Save successfully",
+    "page_not_found":"Sorry, the page are you looking for does not exist!"
   },
   "button": {
     "no": "No",

@@ -158,3 +158,15 @@ export class BaseComponent<P, S> extends SystemProviderConsumerComponent<P, S> {
     return this.context["httpClient"] as HttpClientAPI;
   }
 }
+
+export class BaseRouterComponent<P, S, RP, RR> extends BaseComponent<P & ReactRouter.RouteComponentProps<RP, RR>, S> {
+  static childContextTypes = {
+    currentLocation: React.PropTypes.object
+  }
+
+  getChildContext(){
+    return {
+      currentLocation: this.props.location
+    };
+  }
+}

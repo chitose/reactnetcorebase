@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { BaseComponent } from '../../provider';
+import { BaseRouterComponent } from '../../provider';
 import * as authSvc from '../../service/auth';
 import Paper from 'material-ui/Paper';
 import { Constraints } from '../../service/validator';
@@ -12,7 +12,7 @@ import { PageTitle } from '../component';
 
 import { RouteComponentProps, browserHistory } from 'react-router';
 
-export class LoginPage extends BaseComponent<RouteComponentProps<{ rurl: string }, any>, void> {
+export class LoginPage extends BaseRouterComponent<any, void, { rurl: string }, any> {
   async submit(model: LoginRequest) {
     let resp = await authSvc.login(this.httpClient, model);
     if (resp.data) {
@@ -26,7 +26,7 @@ export class LoginPage extends BaseComponent<RouteComponentProps<{ rurl: string 
 
   render() {
     return (
-      <PageTitle title={this.i18n.t("security:login.title")}>
+      <PageTitle>
         <div className="row center-xs">
           <div className="col-xs-3">
             <Paper zDepth={1} className="paper">

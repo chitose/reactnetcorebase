@@ -44,8 +44,8 @@ namespace ReactNetCoreBase.Controllers {
       var role = dbUser.Role;
       mapper.Map(request, dbUser);
       await db.SaveChangesAsync(cancellationToken);
-      if (!string.IsNullOrEmpty(request.Password)) {
-        //await userManager.ChangePasswordAsync(dbUser, request.pass)
+      if (!string.IsNullOrEmpty(request.Password) && !string.IsNullOrEmpty(request.NewPassword)) {
+        await userManager.ChangePasswordAsync(dbUser, request.Password, request.NewPassword);
       }
       dbUser.Role = role;
       return mapper.Map<LoginResponse>(dbUser);

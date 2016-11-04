@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { BaseComponent } from '../../provider';
+import { BaseRouterComponent } from '../../provider';
 import * as userSvc from '../../service/user';
 import Paper from 'material-ui/Paper';
 import { Constraints } from '../../service/validator';
@@ -11,7 +11,7 @@ import { RoutePaths } from '../../routes';
 import { PageTitle } from '../component';
 
 import { browserHistory } from 'react-router';
-export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<any, any>, ProfileUpdateRequest> {
+export class ProfilePage extends BaseRouterComponent<any, ProfileUpdateRequest, any, any> {
   constructor(props, ctx) {
     super(props, ctx);
     this.state = {
@@ -20,7 +20,8 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
       email: this.serverInfo.info.profile.email || "",
       phone: this.serverInfo.info.profile.phone || "",
       password: "",
-      passwordMatch: "",
+      newPassword: "",
+      newPasswordMatch: "",
       image: ""
     };
   }
@@ -36,9 +37,9 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
 
   render() {
     return (
-      <PageTitle title={this.i18n.t("security:profile.title")}>
+      <PageTitle>
         <div className="row center-xs">
-          <div className="col-sm-12 col-md-9 col-lg-6">
+          <div className="col-xs-12 col-sm-12 col-md-9 col-lg-6">
             <Paper zDepth={1} className="paper">
               <Form onSubmit={this.submit.bind(this)}
                 unSavedConfirm={this.props.route}
@@ -51,7 +52,7 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
                   </div>
                   <div className="col-xs-12 col-sm-3">
                     <Dropify name={ProfileUpdateRequest.ColumnNames.image} showInfo={false} allowedFormats={["portrait"]}
-                      defaultFile={this.serverInfo.info.profile.hasImage ? userSvc.userImage(this.serverInfo.info.profile.id, this.serverInfo.info.profile.rowVersion) : ''} />
+                      defaultFile={this.serverInfo.info.profile && this.serverInfo.info.profile.hasImage ? userSvc.userImage(this.serverInfo.info.profile.id, this.serverInfo.info.profile.rowVersion) : ''} />
                   </div>
                 </div>
                 <div className="row">
@@ -70,7 +71,8 @@ export class ProfilePage extends BaseComponent<ReactRouter.RouteComponentProps<a
                   </div>
                 </div>
                 <FormTextField name={ProfileUpdateRequest.ColumnNames.password} label={this.i18n.t("security:profile.label.password")} />
-                <FormTextField name={ProfileUpdateRequest.ColumnNames.passwordMatch} label={this.i18n.t("security:profile.label.password_match")} />
+                <FormTextField name={ProfileUpdateRequest.ColumnNames.newPassword} label={this.i18n.t("security:profile.label.new_password")} />
+                <FormTextField name={ProfileUpdateRequest.ColumnNames.newPasswordMatch} label={this.i18n.t("security:profile.label.new_password_match")} />
               </Form>
             </Paper>
           </div>

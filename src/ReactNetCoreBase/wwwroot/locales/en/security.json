@@ -19,8 +19,9 @@
       "last_name": "Lastname",
       "phone": "Telephone",
       "email": "E-mail",
+      "new_password": "New password",
       "password": "Password",
-      "password_match": "Re-type password"
+      "new_password_match": "Re-type password"
     }
   },
   "button": {

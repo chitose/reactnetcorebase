@@ -14,11 +14,27 @@ interface State extends FormFieldState {
 
 export class AutoCompleteField extends Field<Props, State, AutoComplete> {
   static muiName = "AutoComplete";
-  className = "autocomplete";  
-  
+  className = "autocomplete";
+
+  defaultFilter = (searchText: string, key: string): boolean => {
+    return searchText !== '' && key.indexOf(searchText) !== -1;
+  }
 
   onNewRequest = (chosenRequest: string, index: number) => {
-    this.value(this.state.dataSource[index][this.props.dataSourceConfig.value]);
+    let selectedItem = null;
+    if (index > -1) {
+      selectedItem = this.state.dataSource[index];
+    } else {
+      let matchedItems = this.state.dataSource.filter(item => {
+        const filterFunc = this.props.filter || this.defaultFilter;
+        return filterFunc(chosenRequest, item);
+      });
+      selectedItem = matchedItems ? matchedItems[0] : null;
+    }
+
+    if (this.props.dataSourceConfig)
+      this.value(selectedItem ? selectedItem[this.props.dataSourceConfig.value] : null);
+    this.value(selectedItem || null);
   }
 
   protected initState(): State {
@@ -36,8 +52,8 @@ export class AutoCompleteField extends Field<Props, State, AutoComplete> {
   }
 
   renderChild() {
-    return <AutoComplete
-      dataSource = {this.state.dataSource}
+    return <AutoComplete ref={(c) => this.childControl = c}
+      dataSource={this.state.dataSource}
       errorText={this.getErrorElement()}
       fullWidth={true}
       floatingLabelText={this.props.label}

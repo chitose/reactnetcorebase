@@ -2,6 +2,7 @@
 import { FormFieldProps, FormFieldState } from '../provider/formInterface';
 import { Field } from './field';
 import DatePicker from 'material-ui/DatePicker';
+import moment from "moment";
 
 interface Props extends FormFieldProps, __MaterialUI.DatePicker.DatePickerProps {
   value?: Date;
@@ -15,7 +16,7 @@ export class DatePickerField extends Field<Props, FormFieldState, DatePicker> {
     return moment(date).format("L");
   }
 
-  renderChild() {
+  renderChild() {    
     return <DatePicker
       errorText={this.getErrorElement()}
       fullWidth={true}
@@ -24,6 +25,6 @@ export class DatePickerField extends Field<Props, FormFieldState, DatePicker> {
       formatDate={this.formatDate}
       value={this.state.value}
       onFocus={this.touched}
-      onChange={(evt, date: Date) => { this.value(date) } } />
+      onChange={(evt, date: Date) => { this.value(new Date(moment(date).format("YYYY-MM-DDT00:00:00") + "Z")) } } />
   }
 }

@@ -1,12 +1,13 @@
 {
   "globalDependencies": {
-    "react": "registry:dt/react#0.14.0+20160817201227",
-    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
-    "react-i18next": "registry:dt/react-i18next#1.7.0+20160810170216",
-    "react-router": "registry:dt/react-router#2.0.0+20160813233016",
-    "react-router/history": "registry:dt/react-router/history#2.0.0+20160608102730",
-    "react-swipeable-views": "registry:dt/react-swipeable-views#0.0.0+20160314195531",
-    "validator": "registry:dt/validator#4.5.1+20160316155526",
-    "whatwg-fetch": "registry:dt/whatwg-fetch#0.0.0+20160728142841"
+    "react": "registry:dt/react",
+    "react-dom": "registry:dt/react-dom",
+    "react-i18next": "registry:dt/react-i18next",
+    "react-router": "registry:dt/react-router",
+    "react-router/history": "registry:dt/react-router/history",
+    "react-swipeable-views": "registry:dt/react-swipeable-views",
+    "validator": "registry:dt/validator",
+    "whatwg-fetch": "registry:dt/whatwg-fetch",
+    "whatwg-streams": "registry:dt/whatwg-streams#0.0.0+20160829180742"
   }
 }

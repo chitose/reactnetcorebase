@@ -31,7 +31,7 @@
     "es6-promise": "4.0.5",
     "flexboxgrid": "6.3.1",
     "i18next": "4.1.0",
-    "material-ui": "0.16.4",
+    "material-ui": "0.16.5",
     "moment": "2.17.0",
     "react": "15.4.1",
     "react-dom": "15.4.1",
@@ -41,7 +41,8 @@
     "react-swipeable-views": "0.8.0",
     "react-tap-event-plugin": "2.0.1",
     "validator": "6.2.0",
-    "whatwg-fetch": "2.0.1"
+    "whatwg-fetch": "2.0.1",
+    "react-redux": "5.0.1"
   },
   "scripts": {
     "build-vendor": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js -d --color --inline --progress",

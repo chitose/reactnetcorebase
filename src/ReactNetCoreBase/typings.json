@@ -6,8 +6,12 @@
     "react-router": "registry:dt/react-router",
     "react-router/history": "registry:dt/react-router/history",
     "react-swipeable-views": "registry:dt/react-swipeable-views",
+    "redux": "registry:dt/redux#3.5.2+20160703092728",
     "validator": "registry:dt/validator",
     "whatwg-fetch": "registry:dt/whatwg-fetch",
     "whatwg-streams": "registry:dt/whatwg-streams#0.0.0+20160829180742"
+  },
+  "dependencies": {
+    "react-redux": "registry:dt/react-redux#4.4.0+20161124155658"
   }
 }
